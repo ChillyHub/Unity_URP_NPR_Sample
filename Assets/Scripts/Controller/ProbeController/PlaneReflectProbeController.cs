@@ -41,7 +41,7 @@ namespace Controller.PorbeController
 
             if (reflectionProbe != null)
             {
-                UpdateScene();
+                // UpdateScene();
             }
         }
 

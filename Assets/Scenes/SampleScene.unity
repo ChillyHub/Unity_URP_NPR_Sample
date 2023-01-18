@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.1624648, g: 0.18926923, b: 0.21197736, a: 1}
+  m_IndirectSpecularColor: {r: 0.16246775, g: 0.18927225, b: 0.21197829, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -164,7 +164,7 @@ ReflectionProbe:
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 183
   m_IntensityMultiplier: 1
   m_BlendDistance: 1
   m_HDR: 1
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
-  - component: {fileID: 330585548}
+  - component: {fileID: 330585549}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &330585548
+--- !u!114 &330585549
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -316,21 +316,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed2886068fc24f2dacf5b2acf6dae0c8, type: 3}
+  m_Script: {fileID: 11500000, guid: f2850d1d027f1824abe0c0373d2e49fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 651816363}
-  RotateSpeed: 2
-  rotationMin: 0
-  rotationMax: 89
-  ZoomSpeed: 0.1
-  distanceMin: 0.1
-  distanceMax: 50
-  translateSpeed: 3
-  autoRotate: 0
-  autoRotateSpeed: 2
-  MouseStopCheck: 0
-  MouseStopSecond: 5
+  focusPosition: {x: 0, y: 1.408, z: 0}
+  focusTarget: {fileID: 651816362}
+  moveWithFoucs: 0
+  moveKey: 1
+  rotateKey: 1
+  scaleKey: 0
+  rotateSpeed: 0.5
+  scaleSpeed: 0.5
+  followLight: {fileID: 410087040}
+  onlyRotateByY: 1
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,14 +416,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
-  m_LocalRotation: {x: -0.05370922, y: 0.2110056, z: -0.011612348, w: -0.9759391}
+  m_LocalRotation: {x: -0.031858973, y: 0.8135429, z: -0.04477201, w: -0.57890284}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 6.3, y: 335.6, z: 0}
+  m_LocalEulerAnglesHint: {x: 6.3, y: 250.87, z: 0}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,7 +454,7 @@ GameObject:
   m_Component:
   - component: {fileID: 651816363}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: HeadPosProxy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -490,7 +488,7 @@ GameObject:
   - component: {fileID: 692810018}
   - component: {fileID: 692810017}
   - component: {fileID: 692810021}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -72,11 +72,11 @@ float4 HairRenderPassFragment(Varyings input) : SV_Target
     half ambientOcclusion = lightMap.b;
     
     float3 lightDirOSXZ = normalize(float3(dot(input.rightWS, lightDir), 0.0, dot(input.frontWS, lightDir)));
+    half2 lightMapUV = lerp(float2(1.0 - input.baseUV.x, input.baseUV.y), input.baseUV, 
+        step(0, dot(lightDirOSXZ, input.rightWS)));
+
     float lightFac = dot(lightDirOSXZ, float3(0.0, 0.0, 1.0)) * 0.5 + 0.5;
-    half4 faceLightMapR = SAMPLE_TEXTURE2D(_FaceLightMap, sampler_FaceLightMap, input.baseUV);
-    half4 faceLightMapL = SAMPLE_TEXTURE2D(_FaceLightMap, sampler_FaceLightMap,
-        float2(1.0 - input.baseUV.x, input.baseUV.y));
-    half faceShadowFac = lerp(faceLightMapL.r, faceLightMapR.r, step(0, dot(lightDirOSXZ, input.rightWS)));
+    float faceShadowFac = SAMPLE_TEXTURE2D(_FaceLightMap, sampler_FaceLightMap, lightMapUV);
     
     float halfLambert = smoothstep(faceShadowFac - 0.001, faceShadowFac, lightFac);
 #else

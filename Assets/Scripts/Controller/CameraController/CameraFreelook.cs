@@ -26,7 +26,7 @@ namespace Controller.CameraController
         public bool autoRotate = false;
         public float autoRotateSpeed = 2;
 
-        private bool mousemove = false;//检测鼠标是否移动
+        // private bool mousemove = false;//检测鼠标是否移动
 
         [Header("鼠标超过多少秒静止，自动旋转(最少5秒)")]
         public bool MouseStopCheck = false;
