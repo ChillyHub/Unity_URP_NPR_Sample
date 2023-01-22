@@ -5,6 +5,7 @@ using UnityEditor;
 
 namespace Controller.PorbeController
 {
+    [ExecuteAlways]
     public class PlaneReflectProbeController : MonoBehaviour
     {
         public ReflectionProbe reflectionProbe;
@@ -14,7 +15,7 @@ namespace Controller.PorbeController
         {
             if (GetComponent<ReflectionProbe>() != null)
             {
-                Debug.LogWarning("Reflection probe conponent can't be self (PlaneReflectProbeController)");
+                Debug.LogWarning("Reflection probe conponent can't be self component (PlaneReflectProbeController)");
             }
             else if (GetComponentInChildren<ReflectionProbe>() != null)
             {
@@ -29,20 +30,22 @@ namespace Controller.PorbeController
         // Update is called once per frame
         void Update()
         {
-            if (reflectionProbe != null)
+            if (reflectionProbe != null && EditorWindow.focusedWindow != null)
             {
-                UpdateGame();
+                if (EditorWindow.focusedWindow.titleContent.text == "Game")
+                {
+                    UpdateGame();
+                }
+                else if (EditorWindow.focusedWindow.titleContent.text == "Scene")
+                {
+                    UpdateScene();
+                }
             }
         }
 
         private void OnValidate()
         {
             Start();
-
-            if (reflectionProbe != null)
-            {
-                // UpdateScene();
-            }
         }
 
         void UpdateScene()
