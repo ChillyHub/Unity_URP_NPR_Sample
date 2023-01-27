@@ -7,6 +7,8 @@ TEXTURE2D(_CameraOpaqueTexture);
 SAMPLER(sampler_CameraOpaqueTexture);
 TEXTURE2D(_CameraDepthTexture);
 SAMPLER(sampler_CameraDepthTexture);
+TEXTURE2D(_CameraNormalTexture);
+SAMPLER(sampler_CameraNormalTexture);
 
 CBUFFER_START(UnityPerMaterial)
     float _Rim_Intensity;
