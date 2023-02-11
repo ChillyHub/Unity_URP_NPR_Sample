@@ -258,6 +258,32 @@ namespace UnityEditor.Rendering
                 ? new Color(0.6f, 0.6f, 0.6f, 1.333f)
                 : new Color(0.12f, 0.12f, 0.12f, 1.333f));
         }
+        
+        /// <summary>Draw a splitter separator</summary>
+        /// <param name="rect">The rect of the splitter</param>
+        /// <param name="isBoxed">[Optional] add margin if the splitter is boxed</param>
+        public static void DrawSplitter(Rect rect, bool isBoxed = false)
+        {
+            rect.height = 1.0f;
+            float xMin = rect.xMin;
+
+            // Splitter rect should be full-width
+            rect.xMin = 0f;
+            rect.width += 4f;
+
+            if (isBoxed)
+            {
+                rect.xMin = xMin == 7.0 ? 4.0f : EditorGUIUtility.singleLineHeight;
+                rect.width -= 1;
+            }
+
+            if (Event.current.type != EventType.Repaint)
+                return;
+
+            EditorGUI.DrawRect(rect, !EditorGUIUtility.isProSkin
+                ? new Color(0.6f, 0.6f, 0.6f, 1.333f)
+                : new Color(0.12f, 0.12f, 0.12f, 1.333f));
+        }
 
         /// <summary>Draw a header</summary>
         /// <param name="title">Title of the header</param>
@@ -314,6 +340,103 @@ namespace UnityEditor.Rendering
         {
             const float height = 17f;
             var backgroundRect = GUILayoutUtility.GetRect(1f, height);
+            float xMin = backgroundRect.xMin;
+
+            var labelRect = backgroundRect;
+            labelRect.xMin += 16f;
+            labelRect.xMax -= 20f;
+
+            var foldoutRect = backgroundRect;
+            foldoutRect.y += 1f;
+            foldoutRect.width = 13f;
+            foldoutRect.height = 13f;
+            foldoutRect.x = labelRect.xMin + 15 * (EditorGUI.indentLevel - 1); //fix for presset
+
+            // Background rect should be full-width
+            backgroundRect.xMin = 0f;
+            backgroundRect.width += 4f;
+
+            if (isBoxed)
+            {
+                labelRect.xMin += 5;
+                foldoutRect.xMin += 5;
+                backgroundRect.xMin = xMin == 7.0 ? 4.0f : EditorGUIUtility.singleLineHeight;
+                backgroundRect.width -= 1;
+            }
+
+            // Background
+            float backgroundTint = EditorGUIUtility.isProSkin ? 0.1f : 1f;
+            EditorGUI.DrawRect(backgroundRect, new Color(backgroundTint, backgroundTint, backgroundTint, 0.2f));
+
+            // Title
+            EditorGUI.LabelField(labelRect, title, EditorStyles.boldLabel);
+
+            // Active checkbox
+            state = GUI.Toggle(foldoutRect, state, GUIContent.none, EditorStyles.foldout);
+
+            // Context menu
+            var menuIcon = CoreEditorStyles.paneOptionsIcon;
+            var menuRect = new Rect(labelRect.xMax + 3f, labelRect.y + 1f, 16, 16);
+
+            // Add context menu for "Additional Properties"
+            if (contextAction == null && hasMoreOptions != null)
+            {
+                contextAction = pos => OnContextClick(pos, hasMoreOptions, toggleMoreOptions);
+            }
+
+            if (contextAction != null)
+            {
+                if (GUI.Button(menuRect, CoreEditorStyles.contextMenuIcon, CoreEditorStyles.contextMenuStyle))
+                    contextAction(new Vector2(menuRect.x, menuRect.yMax));
+            }
+
+            // Documentation button
+            ShowHelpButton(menuRect, documentationURL, title);
+
+            var e = Event.current;
+
+            if (e.type == EventType.MouseDown)
+            {
+                if (backgroundRect.Contains(e.mousePosition))
+                {
+                    if (e.button != 0 && contextAction != null)
+                        contextAction(e.mousePosition);
+                    else if (e.button == 0)
+                    {
+                        state = !state;
+                        e.Use();
+                    }
+
+                    e.Use();
+                }
+            }
+
+            return state;
+        }
+        
+        /// <summary> Draw a foldout header </summary>
+        /// <param name="backgroundRect"> The background rect of the header </param>
+        /// <param name="title"> The title of the header </param>
+        /// <param name="state"> The state of the header </param>
+        /// <param name="isBoxed"> [optional] is the eader contained in a box style ? </param>
+        /// <param name="hasMoreOptions"> [optional] Delegate used to draw the right state of the advanced button. If null, no button drawn. </param>
+        /// <param name="toggleMoreOption"> [optional] Callback call when advanced button clicked. Should be used to toggle its state. </param>
+        /// <returns>return the state of the foldout header</returns>
+        public static bool DrawHeaderFoldout(Rect backgroundRect, string title, bool state, bool isBoxed = false, Func<bool> hasMoreOptions = null, Action toggleMoreOption = null)
+            => DrawHeaderFoldout(backgroundRect, EditorGUIUtility.TrTextContent(title), state, isBoxed, hasMoreOptions, toggleMoreOption);
+
+        /// <summary> Draw a foldout header </summary>
+        /// <param name="backgroundRect"> The background rect of the header </param>
+        /// <param name="title"> The title of the header </param>
+        /// <param name="state"> The state of the header </param>
+        /// <param name="isBoxed"> [optional] is the eader contained in a box style ? </param>
+        /// <param name="hasMoreOptions"> [optional] Delegate used to draw the right state of the advanced button. If null, no button drawn. </param>
+        /// <param name="toggleMoreOptions"> [optional] Callback call when advanced button clicked. Should be used to toggle its state. </param>
+        /// <param name="documentationURL">[optional] The URL that the Unity Editor opens when the user presses the help button on the header.</param>
+        /// <param name="contextAction">[optional] The callback that the Unity Editor executes when the user presses the burger menu on the header.</param>
+        /// <returns>return the state of the foldout header</returns>
+        public static bool DrawHeaderFoldout(Rect backgroundRect, GUIContent title, bool state, bool isBoxed = false, Func<bool> hasMoreOptions = null, Action toggleMoreOptions = null, string documentationURL = "", Action<Vector2> contextAction = null)
+        {
             float xMin = backgroundRect.xMin;
 
             var labelRect = backgroundRect;
@@ -592,6 +715,211 @@ namespace UnityEditor.Rendering
             }
 
             return group.isExpanded;
+        }
+        
+        /// <summary>Draw a header toggle like in Volumes</summary>
+        /// <param name="title"> The title of the header </param>
+        /// <param name="isExpanded"> Is the header expanded </param>
+        /// <param name="isActive">Is the header active</param>
+        /// <param name="contextAction">The context action</param>
+        /// <param name="hasMoreOptions">Delegate saying if we have MoreOptions</param>
+        /// <param name="toggleMoreOptions">Callback called when the MoreOptions is toggled</param>
+        /// <returns>return the state of the foldout header</returns>
+        public static bool DrawToggleFoldout(string title, bool isExpanded, ref bool isActive, Action<Vector2> contextAction = null, Func<bool> hasMoreOptions = null, Action toggleMoreOptions = null)
+            => DrawToggleFoldout(EditorGUIUtility.TrTextContent(title), isExpanded, ref isActive, contextAction, hasMoreOptions, toggleMoreOptions, null);
+
+        /// <summary>Draw a header toggle like in Volumes</summary>
+        /// <param name="title"> The title of the header </param>
+        /// <param name="isExpanded"> Is the header expanded </param>
+        /// <param name="isActive">Is the header active</param>
+        /// <param name="contextAction">The context action</param>
+        /// <param name="hasMoreOptions">Delegate saying if we have MoreOptions</param>
+        /// <param name="toggleMoreOptions">Callback called when the MoreOptions is toggled</param>
+        /// <returns>return the state of the foldout header</returns>
+        public static bool DrawToggleFoldout(GUIContent title, bool isExpanded, ref bool isActive, Action<Vector2> contextAction = null, Func<bool> hasMoreOptions = null, Action toggleMoreOptions = null)
+            => DrawToggleFoldout(title, isExpanded, ref isActive, contextAction, hasMoreOptions, toggleMoreOptions, null);
+
+        /// <summary>Draw a header toggle like in Volumes</summary>
+        /// <param name="title"> The title of the header </param>
+        /// <param name="isExpanded"> Is the header expanded </param>
+        /// <param name="isActive">Is the header active</param>
+        /// <param name="contextAction">The context action</param>
+        /// <param name="hasMoreOptions">Delegate saying if we have MoreOptions</param>
+        /// <param name="toggleMoreOptions">Callback called when the MoreOptions is toggled</param>
+        /// <param name="documentationURL">Documentation URL</param>
+        /// <returns>return the state of the foldout header</returns>
+        public static bool DrawToggleFoldout(string title, bool isExpanded, ref bool isActive, Action<Vector2> contextAction, Func<bool> hasMoreOptions, Action toggleMoreOptions, string documentationURL)
+            => DrawToggleFoldout(EditorGUIUtility.TrTextContent(title), isExpanded, ref isActive, contextAction, hasMoreOptions, toggleMoreOptions, documentationURL);
+
+        /// <summary>Draw a header toggle like in Volumes</summary>
+        /// <param name="title"> The title of the header </param>
+        /// <param name="isExpanded"> Is the header expanded </param>
+        /// <param name="isActive">Is the header active</param>
+        /// <param name="contextAction">The context action</param>
+        /// <param name="hasMoreOptions">Delegate saying if we have MoreOptions</param>
+        /// <param name="toggleMoreOptions">Callback called when the MoreOptions is toggled</param>
+        /// <param name="documentationURL">Documentation URL</param>
+        /// <returns>return the state of the foldout header</returns>
+        public static bool DrawToggleFoldout(GUIContent title, bool isExpanded, ref bool isActive, Action<Vector2> contextAction, Func<bool> hasMoreOptions, Action toggleMoreOptions, string documentationURL)
+        {
+            var backgroundRect = EditorGUI.IndentedRect(GUILayoutUtility.GetRect(1f, 17f));
+
+            var labelRect = backgroundRect;
+            labelRect.xMin += 32f;
+            labelRect.xMax -= 20f + 16 + 5;
+
+            var foldoutRect = backgroundRect;
+            foldoutRect.y += 1f;
+            foldoutRect.width = 13f;
+            foldoutRect.height = 13f;
+
+            var toggleRect = backgroundRect;
+            toggleRect.x += 16f;
+            toggleRect.y += 2f;
+            toggleRect.width = 13f;
+            toggleRect.height = 13f;
+
+            // Background rect should be full-width
+            backgroundRect.xMin = 0f;
+            backgroundRect.width += 4f;
+
+            // Background
+            float backgroundTint = EditorGUIUtility.isProSkin ? 0.1f : 1f;
+            EditorGUI.DrawRect(backgroundRect, new Color(backgroundTint, backgroundTint, backgroundTint, 0.2f));
+
+            // Title
+            using (new EditorGUI.DisabledScope(!isActive))
+                EditorGUI.LabelField(labelRect, title, EditorStyles.boldLabel);
+
+            // Foldout
+            isExpanded = UnityEngine.GUI.Toggle(foldoutRect, isExpanded, GUIContent.none, EditorStyles.foldout);
+
+            // Active checkbox
+            isActive = UnityEngine.GUI.Toggle(toggleRect, isActive, GUIContent.none, CoreEditorStyles.smallTickbox);
+
+            // Context menu
+            var contextMenuIcon = CoreEditorStyles.contextMenuIcon.image;
+            var contextMenuRect = new Rect(labelRect.xMax + 3f + 16 + 5, labelRect.y + 1f, 16, 16);
+
+            if (contextAction == null && hasMoreOptions != null)
+            {
+                // If no contextual menu add one for the additional properties.
+                contextAction = pos => OnContextClick(pos, hasMoreOptions, toggleMoreOptions);
+            }
+
+            if (contextAction != null)
+            {
+                if (UnityEngine.GUI.Button(contextMenuRect, CoreEditorStyles.contextMenuIcon, CoreEditorStyles.contextMenuStyle))
+                    contextAction(new Vector2(contextMenuRect.x, contextMenuRect.yMax));
+            }
+
+            // Documentation button
+            ShowHelpButton(contextMenuRect, documentationURL, title);
+
+            // Handle events
+            var e = Event.current;
+
+            if (e.type == EventType.MouseDown)
+            {
+                if (backgroundRect.Contains(e.mousePosition))
+                {
+                    // Left click: Expand/Collapse
+                    if (e.button == 0)
+                        isExpanded = !isExpanded;
+                    // Right click: Context menu
+                    else if (contextAction != null)
+                        contextAction(e.mousePosition);
+
+                    e.Use();
+                }
+            }
+
+            return isExpanded;
+        }
+        
+        /// <summary>Draw a header toggle like in Volumes</summary>
+        /// <param name="backgroundRect"> The background rect </param>
+        /// <param name="title"> The title of the header </param>
+        /// <param name="isExpanded"> Is the header expanded </param>
+        /// <param name="isActive">Is the header active</param>
+        /// <param name="contextAction">The context action</param>
+        /// <param name="hasMoreOptions">Delegate saying if we have MoreOptions</param>
+        /// <param name="toggleMoreOptions">Callback called when the MoreOptions is toggled</param>
+        /// <param name="documentationURL">Documentation URL</param>
+        /// <returns>return the state of the foldout header</returns>
+        public static bool DrawToggleFoldout(Rect backgroundRect, GUIContent title, bool isExpanded, ref bool isActive, Action<Vector2> contextAction, Func<bool> hasMoreOptions, Action toggleMoreOptions, string documentationURL)
+        {
+            var labelRect = backgroundRect;
+            labelRect.xMin += 32f;
+            labelRect.xMax -= 20f + 16 + 5;
+
+            var foldoutRect = backgroundRect;
+            foldoutRect.y += 1f;
+            foldoutRect.width = 13f;
+            foldoutRect.height = 13f;
+
+            var toggleRect = backgroundRect;
+            toggleRect.x += 16f;
+            toggleRect.y += 2f;
+            toggleRect.width = 13f;
+            toggleRect.height = 13f;
+
+            // Background rect should be full-width
+            backgroundRect.xMin = 0f;
+            backgroundRect.width += 4f;
+
+            // Background
+            float backgroundTint = EditorGUIUtility.isProSkin ? 0.1f : 1f;
+            EditorGUI.DrawRect(backgroundRect, new Color(backgroundTint, backgroundTint, backgroundTint, 0.2f));
+
+            // Title
+            using (new EditorGUI.DisabledScope(!isActive))
+                EditorGUI.LabelField(labelRect, title, EditorStyles.boldLabel);
+
+            // Foldout
+            isExpanded = UnityEngine.GUI.Toggle(foldoutRect, isExpanded, GUIContent.none, EditorStyles.foldout);
+
+            // Active checkbox
+            isActive = UnityEngine.GUI.Toggle(toggleRect, isActive, GUIContent.none, CoreEditorStyles.smallTickbox);
+
+            // Context menu
+            var contextMenuIcon = CoreEditorStyles.contextMenuIcon.image;
+            var contextMenuRect = new Rect(labelRect.xMax + 3f + 16 + 5, labelRect.y + 1f, 16, 16);
+
+            if (contextAction == null && hasMoreOptions != null)
+            {
+                // If no contextual menu add one for the additional properties.
+                contextAction = pos => OnContextClick(pos, hasMoreOptions, toggleMoreOptions);
+            }
+
+            if (contextAction != null)
+            {
+                if (UnityEngine.GUI.Button(contextMenuRect, CoreEditorStyles.contextMenuIcon, CoreEditorStyles.contextMenuStyle))
+                    contextAction(new Vector2(contextMenuRect.x, contextMenuRect.yMax));
+            }
+
+            // Documentation button
+            ShowHelpButton(contextMenuRect, documentationURL, title);
+
+            // Handle events
+            var e = Event.current;
+
+            if (e.type == EventType.MouseDown)
+            {
+                if (backgroundRect.Contains(e.mousePosition))
+                {
+                    // Left click: Expand/Collapse
+                    if (e.button == 0)
+                        isExpanded = !isExpanded;
+                    // Right click: Context menu
+                    else if (contextAction != null)
+                        contextAction(e.mousePosition);
+
+                    e.Use();
+                }
+            }
+
+            return isExpanded;
         }
 
         /// <summary>Draw a header section like in Global Settings</summary>

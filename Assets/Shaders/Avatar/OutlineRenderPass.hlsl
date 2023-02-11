@@ -27,7 +27,7 @@ Varyings OutlineRenderPassVertex(Attributes input)
     float3 normalCS = TransformWorldToHClipDir(normalWS, true);
     float4 outlineOffset = float4(normalCS.x, normalCS.y * (_ScreenParams.x / _ScreenParams.y), normalCS.z, 0.0);
     output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
-    output.positionCS += outlineOffset * min(6.0, output.positionCS.w) * _OutlineWidth * 0.002;
+    output.positionCS += outlineOffset * min(3.0, output.positionCS.w) * _OutlineWidth / 360.0;
     return output;
 }
 

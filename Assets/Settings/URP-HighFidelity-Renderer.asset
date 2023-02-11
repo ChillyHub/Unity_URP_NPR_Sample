@@ -35,7 +35,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac95199ae59845c9bef61bf064a4a707, type: 3}
   m_Name: ScreenSpaceRimRendererFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   Event: 450
 --- !u!114 &11400000
 MonoBehaviour:

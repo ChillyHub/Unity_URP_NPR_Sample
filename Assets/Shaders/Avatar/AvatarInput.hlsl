@@ -23,26 +23,34 @@ SAMPLER(sampler_MetalMap);
 TEXTURE2D(_FaceLightMap);
 SAMPLER(sampler_FaceLightMap);
 
+TEXTURE2D(_CameraDepthTexture);
+SAMPLER(sampler_CameraDepthTexture);
+
 CBUFFER_START(UnityPerMaterial)
     float4 _DiffuseMap_ST;
     float4 _RampMap_TexelSize;
     float _AO_Strength;
     float _Transition_Range;
     float _Specular_Range;
-    float _Specular_Strength;
+    float _Specular_Threshold;
     float _Emission_Strength;
     float _GI_Strength;
 
     float _NightToggle;
+    float _DayTime;
 
-    float _Space_1;
+    //float _Space_1;
 
     float3 _Rim_Color;
     float _Rim_Strength;
     float _Rim_Scale;
     float _Rim_Clamp;
+
+    float _Edge_Rim_Strength;
+    float _Edge_Rim_Threshold;
+    float _Edge_Rim_Width;
     
-    float2 _Space_2;
+    float3 _Space_2;
 
     float4 _OutlineColor;
     float _OutlineWidth;

@@ -2,55 +2,63 @@ Shader "Custom/Avatar"
 {
     Properties
     {
-        [BeginFold(Setting)]
+        [Foldout(Setting)]
     	[Toggle] _NightToggle("Night", Float) = 0
-    	[EndFold]
+    	_DayTime("Time", Range(0, 24)) = 12
+    	[FoldEnd]
     	
-    	[BeginFold(Base Textures)]
+    	[Foldout(Textures)]
     	_DiffuseMap("Diffuse Map", 2D) = "white" {}
         _LightMap("Light Map", 2D) = "white" {}
         _RampMap("Ramp Map", 2D) = "white" {}
+    	_MetalMap("Metal Map", 2D) = "white" {}
     	_FaceLightMap("Face Light Map", 2D) = "white" {}
-    	[EndFold]
+    	[FoldEnd]
     	
-    	[BeginFold(Diffuse, _DIFFUSE_ON)]
+    	[Foldout(Diffuse, _DIFFUSE_ON)]
     	_AO_Strength("AO Strength",  Range(0, 1)) = 0.3
         _Transition_Range("Transition Range", Range(0, 10)) = 1
         [Toggle(_TRANSITION_BLUR)]_TransitionBlurToggle("Transition Blur", Float) = 1
-    	[EndFold]
+    	[FoldEnd]
     	
-    	[BeginFold(Specular, _SPECULAR_ON)]
-    	_MetalMap("Metal Map", 2D) = "white" {}
+    	[Foldout(Specular, _SPECULAR_ON)]
         _Specular_Range("Specular Range", Range(0, 16)) = 8
-    	[EndFold]
+    	_Specular_Threshold("Specular Threshold", Range(0, 1)) = 0.5
+    	[FoldEnd]
     	
-    	[BeginFold(Emission, _EMISSION_ON)]
+    	[Foldout(Emission, _EMISSION_ON)]
     	_Emission_Strength("Emission Strength", Range(0, 8)) = 1
-    	[EndFold]
+    	[FoldEnd]
         
-    	[BeginFold(GI, _GI_ON)]
+    	[Foldout(GI, _GI_ON)]
         _GI_Strength("GI Strength", Range(0, 1)) = 1
-        [EndFold]
+        [FoldEnd]
     	
-    	[BeginFold(Rim, _RIM_ON, 0)]
+    	[Foldout(Fresnel Rim, _RIM_ON)]
     	_Rim_Color("Rim Color", Color) = (1.0, 1.0, 1.0)
     	_Rim_Strength("Rim Strength", Range(0, 1)) = 0
     	[PowerSlider(4.0)] _Rim_Scale("Rim Scale", Range(0.01, 1)) = 0.08
     	_Rim_Clamp("Rim Clamp", Range(0, 1)) = 0
-        [EndFold]
+        [FoldEnd]
+    	
+    	[Foldout(Edge Rim, _EDGE_RIM_ON)]
+    	_Edge_Rim_Strength("Edge Rim Strength", Range(0, 1)) = 1
+    	_Edge_Rim_Threshold("Edge Rim Threshold", Range(0.1, 10)) = 0.1
+    	_Edge_Rim_Width("Edge Rim Width", Range(0, 3)) = 1
+    	[FoldEnd]
         
-    	[BeginFold(Outline, _OUTLINE_ON)]
+    	[Foldout(Outline, _OUTLINE_ON)]
         [Toggle(_NORMAL_FIXED)] _NormalFixedToggle("Is Normals Fixed", Float) = 1
         _OutlineColor("Outline Color", Color) = (0.0, 0.0, 0.0, 1.0)
         _OutlineWidth("Outline Width", Float) = 1
-    	[EndFold]
+    	[FoldEnd]
     	
-    	[BeginFold(Shadow)]
+    	[Foldout(Shadow)]
     	[KeywordEnum(On, Clip, Dither, Off)] _Shadows("Shadow Caster Type", Float) = 0
 		[Toggle(_RECEIVE_SHADOWS)] _ReceiveShadowsToggle("Receive Shadows", Float) = 0
-    	[EndFold]
+    	[FoldEnd]
         
-    	[BeginFold(Blend Mode)]
+    	[Foldout(Blend Mode)]
         // Set blend mode
 		[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("Src Blend", Float) = 1
 		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("Dst Blend", Float) = 0
@@ -61,7 +69,7 @@ Shader "Custom/Avatar"
 		[Toggle(_CLIPPING)] _Clipping("Alpha Clipping", Float) = 0
         // Alpha premultiply
 		[Toggle(_PREMULTIPLY_ALPHA)] _PreMulAlphaToggle("Alpha premultiply", Float) = 0
-    	[EndFold][HideInInspector] __1("", Float) = 0
+    	[FoldEnd][HideInInspector] __1("", Float) = 0
     }
     SubShader
     {
@@ -92,6 +100,9 @@ Shader "Custom/Avatar"
             #pragma shader_feature _EMISSION_ON
             #pragma shader_feature _GI_ON
             #pragma shader_feature _RIM_ON
+            #pragma shader_feature _EDGE_RIM_ON
+
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 
             #pragma vertex HairRenderPassVertex
             #pragma fragment HairRenderPassFragment
@@ -163,5 +174,5 @@ Shader "Custom/Avatar"
             ENDHLSL
         }
     }
-    CustomEditor "AvatarShaderGUI"
+    CustomEditor "AvatarMaterialGUI"
 }

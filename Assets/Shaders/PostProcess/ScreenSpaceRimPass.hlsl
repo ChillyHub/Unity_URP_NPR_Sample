@@ -7,8 +7,8 @@ TEXTURE2D(_CameraOpaqueTexture);
 SAMPLER(sampler_CameraOpaqueTexture);
 TEXTURE2D(_CameraDepthTexture);
 SAMPLER(sampler_CameraDepthTexture);
-TEXTURE2D(_CameraNormalTexture);
-SAMPLER(sampler_CameraNormalTexture);
+TEXTURE2D(_CameraNormalsTexture);
+SAMPLER(sampler_CameraNormalsTexture);
 
 CBUFFER_START(UnityPerMaterial)
     float _Rim_Intensity;
@@ -44,7 +44,7 @@ float4 ScreenSpaceRimPassFragment(Varyings input) : SV_Target
 
     float2 trueUV = input.screenUV;
     float2 biasUV = trueUV + bias;
-
+    
     float4 color = SAMPLE_TEXTURE2D(_CameraOpaqueTexture, sampler_CameraOpaqueTexture, trueUV);
     float depthTrue = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_CameraDepthTexture, trueUV);
     float depthBias = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_CameraDepthTexture, biasUV);

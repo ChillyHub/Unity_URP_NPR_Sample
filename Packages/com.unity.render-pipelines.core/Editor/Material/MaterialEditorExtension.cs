@@ -53,10 +53,60 @@ namespace UnityEditor.Rendering
 
             EditorPrefs.SetInt(key, (int)state);
         }
+        
+        /// <summary>
+        /// Obtains if an area is expanded in a <see cref="MaterialEditor"/>
+        /// </summary>
+        /// <param name="editor"><see cref="MaterialEditor"/></param>
+        /// <param name="mask">The mask identifying the area to check the state</param>
+        /// <param name="defaultExpandedState">Default value if is key is not present</param>
+        /// <returns>true if the area is expanded</returns>
+        public static bool IsAreaActive(this MaterialEditor editor, uint mask, uint defaultExpandedState = uint.MaxValue)
+        {
+            string key = editor.GetEditorActiveKey();
+
+            if (EditorPrefs.HasKey(key))
+            {
+                uint state = (uint)EditorPrefs.GetInt(key);
+                return (state & mask) > 0;
+            }
+
+            EditorPrefs.SetInt(key, (int)defaultExpandedState);
+            return (defaultExpandedState & mask) > 0;
+        }
+
+        /// <summary>
+        /// Sets if the area is expanded <see cref="MaterialEditor"/>
+        /// </summary>
+        /// <param name="editor"><see cref="MaterialEditor"/></param>
+        /// <param name="mask">The mask identifying the area to check the state</param>
+        public static void SetIsAreaActive(this MaterialEditor editor, uint mask, bool value)
+        {
+            string key = editor.GetEditorActiveKey();
+
+            uint state = (uint)EditorPrefs.GetInt(key);
+
+            if (value)
+            {
+                state |= mask;
+            }
+            else
+            {
+                mask = ~mask;
+                state &= mask;
+            }
+
+            EditorPrefs.SetInt(key, (int)state);
+        }
 
         static string GetEditorPrefsKey(this MaterialEditor editor)
         {
             return k_KeyPrefix + (editor.target as Material).shader.name;
+        }
+
+        static string GetEditorActiveKey(this MaterialEditor editor)
+        {
+            return k_KeyPrefix + "Mat_" + (editor.target as Material).name;
         }
     }
 
