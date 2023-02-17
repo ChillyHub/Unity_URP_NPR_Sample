@@ -2,60 +2,70 @@ Shader "Custom/Avatar"
 {
     Properties
     {
-        [Foldout(Setting)]
-    	[Toggle] _NightToggle("Night", Float) = 0
-    	_DayTime("Time", Range(0, 24)) = 12
-    	[FoldEnd]
-    	
-    	[Foldout(Textures)]
+	    [Foldout(Textures)]
     	_DiffuseMap("Diffuse Map", 2D) = "white" {}
+    	_NormalMap("Normal Map", 2D) = "bump" {}
         _LightMap("Light Map", 2D) = "white" {}
         _RampMap("Ramp Map", 2D) = "white" {}
     	_MetalMap("Metal Map", 2D) = "white" {}
     	_FaceLightMap("Face Light Map", 2D) = "white" {}
     	[FoldEnd]
     	
-    	[Foldout(Diffuse, _DIFFUSE_ON)]
-    	_AO_Strength("AO Strength",  Range(0, 1)) = 0.3
-        _Transition_Range("Transition Range", Range(0, 10)) = 1
-        [Toggle(_TRANSITION_BLUR)]_TransitionBlurToggle("Transition Blur", Float) = 1
+    	[Foldout(Setting)]
+        _DayTime("Time", Range(0, 24)) = 12
+    	[IntRange] _RampV1("Ramp Line of Mat1 (0.0~0.2)", Range(1, 5)) = 1
+    	[IntRange] _RampV2("Ramp Line of Mat2 (0.2~0.4)", Range(1, 5)) = 2
+    	[IntRange] _RampV3("Ramp Line of Mat3 (0.4~0.6)", Range(1, 5)) = 3
+    	[IntRange] _RampV4("Ramp Line of Mat4 (0.6~0.8)", Range(1, 5)) = 4
+    	[IntRange] _RampV5("Ramp Line of Mat5 (0.8~1.0)", Range(1, 5)) = 5
     	[FoldEnd]
+    	
+    	[Foldout(Diffuse, _DIFFUSE_ON)]
+    	_Diffuse_Intensity("Diffuse Intensity", Range(0, 1)) = 1
+        _Transition_Range("Transition Range", Range(0, 1)) = 0
+        [FoldEnd]
     	
     	[Foldout(Specular, _SPECULAR_ON)]
-        _Specular_Range("Specular Range", Range(0, 16)) = 8
-    	_Specular_Threshold("Specular Threshold", Range(0, 1)) = 0.5
-    	[FoldEnd]
+    	_Specular_Intensity("Specular Intensity", Range(0, 1)) = 1
+        _Specular_Range("Specular Range", Range(1, 16)) = 8
+    	[Toggle] _MetalSoftSpecToggle("Metal Specular Is Soft", Float) = 1
+        [FoldEnd]
     	
     	[Foldout(Emission, _EMISSION_ON)]
-    	_Emission_Strength("Emission Strength", Range(0, 8)) = 1
+    	_Emission_Intensity("Emission Intensity", Range(0, 8)) = 1
+	    _Emission_Color("Emission Color", Color) = (1.0, 1.0, 1.0)
+    	[Toggle] _Emission_Color_Only("Only Use Emission Color", Float) = 0.0
     	[FoldEnd]
         
     	[Foldout(GI, _GI_ON)]
-        _GI_Strength("GI Strength", Range(0, 1)) = 1
+        _GI_Intensity("GI Intensity", Range(0, 1)) = 1
         [FoldEnd]
     	
     	[Foldout(Fresnel Rim, _RIM_ON)]
+    	_Rim_Intensity("Rim Intensity", Range(0, 1)) = 0
     	_Rim_Color("Rim Color", Color) = (1.0, 1.0, 1.0)
-    	_Rim_Strength("Rim Strength", Range(0, 1)) = 0
-    	[PowerSlider(4.0)] _Rim_Scale("Rim Scale", Range(0.01, 1)) = 0.08
+        [PowerSlider(4.0)] _Rim_Scale("Rim Scale", Range(0.01, 1)) = 0.08
     	_Rim_Clamp("Rim Clamp", Range(0, 1)) = 0
         [FoldEnd]
     	
     	[Foldout(Edge Rim, _EDGE_RIM_ON)]
-    	_Edge_Rim_Strength("Edge Rim Strength", Range(0, 1)) = 1
+    	_Edge_Rim_Intensity("Edge Rim Intensity", Range(0, 1)) = 1
     	_Edge_Rim_Threshold("Edge Rim Threshold", Range(0.1, 10)) = 0.1
     	_Edge_Rim_Width("Edge Rim Width", Range(0, 3)) = 1
     	[FoldEnd]
         
     	[Foldout(Outline, _OUTLINE_ON)]
         [Toggle(_NORMAL_FIXED)] _NormalFixedToggle("Is Normals Fixed", Float) = 1
-        _OutlineColor("Outline Color", Color) = (0.0, 0.0, 0.0, 1.0)
+    	[Toggle(_USE_VERTEX_COLOR)] _UseVertexColorToggle("Use Vertex Color", Float) = 0
+    	[Toggle(_USE_VERTEX_ALPHA)] _UseVertexAlphaToggle("Use Vertex Alpha", Float) = 0
+        _OutlineColor("Outline Mul Color", Color) = (0.2, 0.2, 0.2, 1.0)
         _OutlineWidth("Outline Width", Float) = 1
     	[FoldEnd]
     	
     	[Foldout(Shadow)]
     	[KeywordEnum(On, Clip, Dither, Off)] _Shadows("Shadow Caster Type", Float) = 0
-		[Toggle(_RECEIVE_SHADOWS)] _ReceiveShadowsToggle("Receive Shadows", Float) = 0
+		[Toggle(_RECEIVE_LIGHT_SHADOWS)] _ReceiveLightShadowsToggle("Receive Light Shadows", Float) = 0
+		[Toggle(_RECEIVE_DEPTH_SHADOWS)] _ReceiveDepthShadowsToggle("Receive Depth Shadows", Float) = 0
     	[FoldEnd]
         
     	[Foldout(Blend Mode)]
@@ -103,6 +113,7 @@ Shader "Custom/Avatar"
             #pragma shader_feature _EDGE_RIM_ON
 
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+            #pragma multi_compile _ _SHADOWS_SOFT
 
             #pragma vertex HairRenderPassVertex
             #pragma fragment HairRenderPassFragment
@@ -115,7 +126,7 @@ Shader "Custom/Avatar"
         {
             Name "Outline Render Pass"
             Tags { "LightMode"="AvatarOutline" }
-            
+
             Cull front
             
             HLSLPROGRAM
@@ -124,6 +135,8 @@ Shader "Custom/Avatar"
 
             #pragma shader_feature _OUTLINE_ON
             #pragma shader_feature _NORMAL_FIXED
+            #pragma shader_feature _USE_VERTEX_COLOR
+            #pragma shader_feature _USE_VERTEX_ALPHA
 
             #pragma vertex OutlineRenderPassVertex
             #pragma fragment OutlineRenderPassFragment
@@ -140,7 +153,7 @@ Shader "Custom/Avatar"
             ZWrite On
             ZTest LEqual
             ColorMask 0
-            // Cull[_Cull]
+            Cull back
 
             HLSLPROGRAM
             #pragma exclude_renderers gles gles3 glcore
@@ -173,6 +186,68 @@ Shader "Custom/Avatar"
             
             ENDHLSL
         }
+    	//Pass
+        //{
+        //    Name "DepthOnly"
+        //    Tags{"LightMode" = "DepthOnly"}
+//
+        //    ZWrite On
+        //    ColorMask 0
+        //    Cull back
+//
+        //    HLSLPROGRAM
+        //    #pragma exclude_renderers gles gles3 glcore
+        //    #pragma target 4.5
+//
+        //    #pragma vertex DepthOnlyVertex
+        //    #pragma fragment DepthOnlyFragment
+//
+        //    // -------------------------------------
+        //    // Material Keywords
+        //    #pragma shader_feature_local_fragment _ALPHATEST_ON
+        //    #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+//
+        //    //--------------------------------------
+        //    // GPU Instancing
+        //    #pragma multi_compile_instancing
+        //    #pragma multi_compile _ DOTS_INSTANCING_ON
+//
+        //    #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+        //    #include "Packages/com.unity.render-pipelines.universal/Shaders/DepthOnlyPass.hlsl"
+        //    ENDHLSL
+        //}
+	    //Pass
+        //{
+        //    Name "DepthNormals"
+        //    Tags{"LightMode" = "DepthNormals"}
+//
+        //    ZWrite On
+        //    Cull back
+//
+        //    HLSLPROGRAM
+        //    #pragma exclude_renderers gles gles3 glcore
+        //    #pragma target 4.5
+//
+        //    #pragma vertex DepthNormalsVertex
+        //    #pragma fragment DepthNormalsFragment
+//
+        //    // -------------------------------------
+        //    // Material Keywords
+        //    #pragma shader_feature_local _NORMALMAP
+        //    #pragma shader_feature_local _PARALLAXMAP
+        //    #pragma shader_feature_local _ _DETAIL_MULX2 _DETAIL_SCALED
+        //    #pragma shader_feature_local_fragment _ALPHATEST_ON
+        //    #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+//
+        //    //--------------------------------------
+        //    // GPU Instancing
+        //    #pragma multi_compile_instancing
+        //    #pragma multi_compile _ DOTS_INSTANCING_ON
+//
+        //    #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+        //    #include "Packages/com.unity.render-pipelines.universal/Shaders/LitDepthNormalsPass.hlsl"
+        //    ENDHLSL
+        //}
     }
     CustomEditor "AvatarMaterialGUI"
 }

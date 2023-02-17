@@ -1,37 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AvatarMaterialsEditor : MonoBehaviour
+namespace UnityEditor
 {
-    private static MaterialPropertyBlock s_Block;
+    public class AvatarMaterialsEditor : MonoBehaviour
+    {
+        private static MaterialPropertyBlock s_Block;
 
-    private static int s_IsNightId = Shader.PropertyToID("_NightToggle");
+        private static int s_IsNightId = Shader.PropertyToID("_NightToggle");
 
-    public bool Override = true;
+        public bool Override = true;
     
-    [Space(20)]
-    public bool IsNight = false;
+        [Space(20)]
+        public bool IsNight = false;
 
-    private void Awake()
-    {
-        OnValidate();
-    }
-
-    private void OnValidate()
-    {
-        if (s_Block != null)
+        private void Awake()
         {
-            if (Override)
-            {
-                s_Block.SetFloat(s_IsNightId, (float)Convert.ToDouble(IsNight));
-            
-                GetComponentInChildren<Renderer>().SetPropertyBlock(s_Block);
-            }
+            OnValidate();
         }
-        else
+
+        private void OnValidate()
         {
-            s_Block = new MaterialPropertyBlock();
+            if (s_Block != null)
+            {
+                if (Override)
+                {
+                    s_Block.SetFloat(s_IsNightId, (float)Convert.ToDouble(IsNight));
+            
+                    GetComponentInChildren<Renderer>().SetPropertyBlock(s_Block);
+                }
+            }
+            else
+            {
+                s_Block = new MaterialPropertyBlock();
+            }
         }
     }
 }

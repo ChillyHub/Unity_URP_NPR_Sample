@@ -3,17 +3,10 @@
 
 #include "../Utility.hlsl"
 
-//struct Attributes
-//{
-//    float4 positionOS : POSITION;
-//    float3 color : COLOR;
-//    float2 baseUV : TEXCOORD0;
-//    float3 normalOS : NORMAL;
-//    float4 tangentOS : TANGENT;
-//};
-
 TEXTURE2D(_DiffuseMap);
 SAMPLER(sampler_DiffuseMap);
+TEXTURE2D(_NormalMap);
+SAMPLER(sampler_NormalMap);
 TEXTURE2D(_LightMap);
 SAMPLER(sampler_LightMap);
 TEXTURE2D(_RampMap);
@@ -28,34 +21,42 @@ SAMPLER(sampler_CameraDepthTexture);
 
 CBUFFER_START(UnityPerMaterial)
     float4 _DiffuseMap_ST;
-    float4 _RampMap_TexelSize;
-    float _AO_Strength;
-    float _Transition_Range;
-    float _Specular_Range;
-    float _Specular_Threshold;
-    float _Emission_Strength;
-    float _GI_Strength;
 
-    float _NightToggle;
     float _DayTime;
+    float _RampV1;
+    float _RampV2;
+    float _RampV3;
+    float _RampV4;
+    float _RampV5;
 
-    //float _Space_1;
+    float _Diffuse_Intensity;
+    float _Transition_Range;
 
+    float _Specular_Intensity;
+    float _Specular_Range;
+    float _MetalSoftSpecToggle;
+
+    float _Emission_Intensity;
+    float3 _Emission_Color;
+    float _Emission_Color_Only;
+
+    float _GI_Intensity;
+
+    float _Rim_Intensity;
+    float2 _Space_1;
     float3 _Rim_Color;
-    float _Rim_Strength;
     float _Rim_Scale;
     float _Rim_Clamp;
 
-    float _Edge_Rim_Strength;
+    float _Edge_Rim_Intensity;
     float _Edge_Rim_Threshold;
     float _Edge_Rim_Width;
-    
-    float3 _Space_2;
 
     float4 _OutlineColor;
     float _OutlineWidth;
 
-    float _ReceiveShadowsToggle;
+    float _ReceiveLightShadowsToggle;
+    float _ReceiveDepthShadowsToggle;
     float _Cutoff;
     float _PreMulAlphaToggle;
 CBUFFER_END

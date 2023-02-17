@@ -1,51 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
-public class FixedNormalTool
+namespace UnityEditor
 {
-    [MenuItem("Tool/FixedNormalTool")]
-    public static void FixedNormals()
+    public class FixedNormalTool
     {
-        MeshFilter[] meshFilters = Selection.activeGameObject.GetComponentsInChildren<MeshFilter>();
-        foreach (var meshFilter in meshFilters)
+        [MenuItem("Tool/FixedNormalTool")]
+        public static void FixedNormals()
         {
-            Mesh mesh = meshFilter.sharedMesh;
-            WriteNewNormal(mesh);
-        }
-
-        SkinnedMeshRenderer[] skinnedMeshRenderers =
-            Selection.activeGameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
-        foreach (var skinnedMeshRenderer in skinnedMeshRenderers)
-        {
-            Mesh mesh = skinnedMeshRenderer.sharedMesh;
-            WriteNewNormal(mesh);
-        }
-    }
-
-    private static void WriteNewNormal(Mesh mesh)
-    {
-        var map = new Dictionary<Vector3, Vector3>();
-        for (int i = 0; i < mesh.vertexCount; ++i)
-        {
-            if (!map.ContainsKey(mesh.vertices[i]))
+            MeshFilter[] meshFilters = Selection.activeGameObject.GetComponentsInChildren<MeshFilter>();
+            foreach (var meshFilter in meshFilters)
             {
-                map.Add(mesh.vertices[i], mesh.normals[i]);
+                Mesh mesh = meshFilter.sharedMesh;
+                WriteNewNormal(mesh);
             }
-            else
+
+            SkinnedMeshRenderer[] skinnedMeshRenderers =
+                Selection.activeGameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+            foreach (var skinnedMeshRenderer in skinnedMeshRenderers)
             {
-                map[mesh.vertices[i]] += mesh.normals[i];
+                Mesh mesh = skinnedMeshRenderer.sharedMesh;
+                WriteNewNormal(mesh);
             }
         }
 
-        var newNormals = new Color[mesh.vertexCount];
-        for (int i = 0; i < mesh.vertexCount; ++i)
+        private static void WriteNewNormal(Mesh mesh)
         {
-            Vector3 normal = map[mesh.vertices[i]].normalized;
-            newNormals[i] = new Color(normal.x, normal.y, normal.z);
+            var map = new Dictionary<Vector3, Vector3>();
+            for (int i = 0; i < mesh.vertexCount; ++i)
+            {
+                if (!map.ContainsKey(mesh.vertices[i]))
+                {
+                    map.Add(mesh.vertices[i], mesh.normals[i]);
+                }
+                else
+                {
+                    map[mesh.vertices[i]] += mesh.normals[i];
+                }
+            }
+
+            var newNormals = new Vector2[mesh.vertexCount];
+            for (int i = 0; i < mesh.vertexCount; ++i)
+            {
+                Vector3 normal = map[mesh.vertices[i]].normalized;
+                newNormals[i] = PackNormalOctQuadEncode(normal);
+            }
+        
+            mesh.uv2 = newNormals;
         }
         
-        mesh.colors = newNormals;
+        private static Vector2 PackNormalOctQuadEncode(Vector3 n)
+        {
+            float nDot1 = Mathf.Abs(n.x) + Mathf.Abs(n.y) + Mathf.Abs(n.z);
+            n /= Mathf.Max(nDot1, 1e-6f);
+            float tx = Mathf.Clamp01(-n.z);
+            Vector2 t = new Vector2(tx, tx);
+            Vector2 res = new Vector2(n.x, n.y);
+            return res + (res is { x: >= 0.0f, y: >= 0.0f } ? t : -t);
+        }
     }
 }
