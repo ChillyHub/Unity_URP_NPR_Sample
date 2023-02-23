@@ -1,6 +1,7 @@
 ﻿using Controller.PorbeController;
 using Tool;
 using UnityEditor;
+using UnityEngine;
 
 namespace UnityEditor
 {
@@ -26,6 +27,12 @@ namespace UnityEditor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+            
+            if (GUILayout.Button("Smooth Normal"))
+            {
+                ((AvatarNormalSmoothTool)target).rebuild = true;
+                ((AvatarNormalSmoothTool)target).SmoothNormals();
+            }
 
             if (((AvatarNormalSmoothTool)target).mesh == null)
             {

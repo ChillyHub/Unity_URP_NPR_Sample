@@ -23,20 +23,6 @@ MonoBehaviour:
     DirectLightingStrength: 0.25
     Radius: 0.25
     SampleCount: 12
---- !u!114 &-727718803367348270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac95199ae59845c9bef61bf064a4a707, type: 3}
-  m_Name: ScreenSpaceRimRendererFeature
-  m_EditorClassIdentifier: 
-  m_Active: 0
-  Event: 450
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,8 +43,7 @@ MonoBehaviour:
   - {fileID: 4411182520423161592}
   - {fileID: 5394982629569291369}
   - {fileID: 8509878668796128811}
-  - {fileID: -727718803367348270}
-  m_RendererFeatureMap: adc0de57c6d2eee5f81e3c8121ab373d6964e1241ed4de4a2b6e44df8f291976d2b7ea9c9a9fe6f5
+  m_RendererFeatureMap: adc0de57c6d2eee5f81e3c8121ab373d6964e1241ed4de4a2b6e44df8f291976
   m_UseNativeRenderPass: 1
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -92,9 +77,9 @@ MonoBehaviour:
     failOperation: 0
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
-  m_RenderingMode: 0
+  m_RenderingMode: 1
   m_DepthPrimingMode: 0
-  m_AccurateGbufferNormals: 0
+  m_AccurateGbufferNormals: 1
   m_ClusteredRendering: 0
   m_TileSize: 32
   m_IntermediateTextureMode: 1

@@ -1,8 +1,6 @@
 #ifndef AVATAR_INPUT_INCLUDED
 #define AVATAR_INPUT_INCLUDED
 
-#include "../Utility.hlsl"
-
 TEXTURE2D(_DiffuseMap);
 SAMPLER(sampler_DiffuseMap);
 TEXTURE2D(_NormalMap);
@@ -60,5 +58,21 @@ CBUFFER_START(UnityPerMaterial)
     float _Cutoff;
     float _PreMulAlphaToggle;
 CBUFFER_END
+
+half Alpha(half alpha, half cutoff, float2 uv)
+{
+#if defined(_SHADOWS_CLIP)
+    clip(alpha - cutoff);
+#elif defined(_SHADOWS_DITHER)
+    clip(alpha - InterleavedGradientNoise(uv, 0));
+#endif
+
+    return alpha;
+}
+
+half4 SampleAlbedoAlpha(float2 uv, TEXTURE2D_PARAM(albedoAlphaMap, sampler_albedoAlphaMap))
+{
+    return half4(SAMPLE_TEXTURE2D(albedoAlphaMap, sampler_albedoAlphaMap, uv));
+}
 
 #endif

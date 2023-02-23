@@ -16,7 +16,7 @@ namespace CustomRenderer.Overrides
 
         public ClampedFloatParameter threshold = new ClampedFloatParameter(0.1f, 0.1f, 1.0f);
 
-        public bool IsActive() => intensity.value > 0.0f;
+        public bool IsActive() => active && intensity.value > 0.0f;
 
         public bool IsTileCompatible() => false;
     }

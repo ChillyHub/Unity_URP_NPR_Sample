@@ -4,8 +4,6 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
 
-#include "AvatarInput.hlsl"
-
 float3 _LightDirection;
 float3 _LightPosition;
 
@@ -43,22 +41,6 @@ float4 GetShadowPositionHClip(Attributes input)
 #endif
 
     return positionCS;
-}
-
-half Alpha(half alpha, half cutoff, float2 uv)
-{
-#if defined(_SHADOWS_CLIP)
-    clip(alpha - cutoff);
-#elif defined(_SHADOWS_DITHER)
-    clip(alpha - InterleavedGradientNoise(uv, 0));
-#endif
-
-    return alpha;
-}
-
-half4 SampleAlbedoAlpha(float2 uv, TEXTURE2D_PARAM(albedoAlphaMap, sampler_albedoAlphaMap))
-{
-    return half4(SAMPLE_TEXTURE2D(albedoAlphaMap, sampler_albedoAlphaMap, uv));
 }
 
 Varyings ShadowPassVertex(Attributes input)

@@ -21,7 +21,6 @@ Material:
   - _USE_VERTEX_ALPHA
   - _USE_VERTEX_COLOR
   m_InvalidKeywords:
-  - _METALSOFTSPECTOGGLE_ON
   - _SHADOWS_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -137,7 +136,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _MetalSoftSpecToggle: 1
+    - _MetalSoftSpecToggle: 0
     - _Metallic: 0
     - _NormalFixedToggle: 1
     - _OcclusionStrength: 1
@@ -164,7 +163,7 @@ Material:
     - _Specular_Range: 8
     - _SrcBlend: 1
     - _Surface: 0
-    - _Transition_Range: 0
+    - _Transition_Range: 0.665
     - _UseVertexAlphaToggle: 1
     - _UseVertexColorToggle: 1
     - _WorkflowMode: 1
