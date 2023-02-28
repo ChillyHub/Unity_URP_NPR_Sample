@@ -1,8 +1,6 @@
 #ifndef SCREEN_SPACE_RIM_PASS_INCLUDED
 #define SCREEN_SPACE_RIM_PASS_INCLUDED
 
-#include "../Utility.hlsl"
-
 TEXTURE2D(_CameraOpaqueTexture);
 SAMPLER(sampler_CameraOpaqueTexture);
 TEXTURE2D(_CameraDepthTexture);

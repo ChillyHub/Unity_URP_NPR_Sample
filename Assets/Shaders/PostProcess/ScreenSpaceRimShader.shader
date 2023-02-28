@@ -22,7 +22,8 @@
 			#pragma vertex ScreenSpaceRimPassVertex
 			#pragma fragment ScreenSpaceRimPassFragment
 
-			#include "ScreenSpaceRimPass.hlsl"
+			#include "Assets/Shaders/ShaderLibrary/Utility.hlsl"
+			#include "Assets/Shaders/PostProcess/ScreenSpaceRimPass.hlsl"
 
 			ENDHLSL
 		}

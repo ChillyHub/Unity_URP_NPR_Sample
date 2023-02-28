@@ -86,7 +86,7 @@ Shader "Custom/Avatar"
         Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" }
         
         HLSLINCLUDE
-        #include "Assets/Shaders/Utility.hlsl"
+        #include "Assets/Shaders/ShaderLibrary/Utility.hlsl"
         ENDHLSL
 
         Pass
