@@ -6,11 +6,17 @@
 
 先直接上效果图
 
-![屏幕截图 2023-03-12 141049](./assets/屏幕截图 2023-03-12 141049.png)
+<div align=center>
+<img src="./assets/屏幕截图 2023-03-12 141049.png" alt="屏幕截图 2023-03-12 141049" style="zoom: 50%;" />
+</div>
 
-![屏幕截图 2023-03-12 133132](./assets/屏幕截图 2023-03-12 133132.png)
+<div align=center>
+<img src="./assets/屏幕截图 2023-03-12 133132.png" alt="屏幕截图 2023-03-12 133132" />
+</div>
 
-![屏幕截图 2023-03-12 140450](./assets/屏幕截图 2023-03-12 140450.png)
+<div align=center>
+<img src="./assets/屏幕截图 2023-03-12 140450.png" alt="屏幕截图 2023-03-12 140450" style="zoom: 80%;" />
+</div>
 
 
 
@@ -20,30 +26,37 @@
 - 使用 blender，借助 mmd_tools 插件，导入 pmx 模型。
 - 由于绘制模型的轮廓最好需要借助顶点色的数据（这点后面讲到 Outline 时再具体说明），我们给顶点色的 rgb 通道涂上表示模型轮廓线的颜色，再在顶点色的 a 通道涂色，用 0~1 的数值来控制描边的粗细。这里主要是将嘴巴周围，眼睛周围，发梢尖端和一些物体相接的地方 a 通道设为0，因为这些地方如果描边，会有些突兀的效果。
   
-
-  <img src="./assets/屏幕截图 2023-03-11 025603.png" alt="屏幕截图 2023-03-11 025603" style="zoom:50%;" title="顶点色的 rgb 通道表示描边颜色"/>
-
+  <div align=center>
+  <img src="./assets/屏幕截图 2023-03-11 025603.png" alt="屏幕截图 2023-03-11 025603" style="zoom:50%;" title="顶点色的 rgb 通道表示描边颜色"/></div>
+  
   <center>▲ 顶点色的 rgb 通道表示描边颜色</center>
-
+  
+  <div align=center>
   <img src="./assets/屏幕截图 2023-03-11 025033.png" alt="屏幕截图 2023-03-11 025033" style="zoom: 50%;" />
-
+  </div>
+  
   <center>▲ 顶点色的 a 通道表示描边粗细，随便涂了一下</center>
 - 处理好模型的顶点后，检查一下模型的顶点数据，骨骼连接等，可以用 blender 的加权法线修改器修正一下法线，最后把不需要的刚体胶囊去掉，就可以导出 fbx 文件了。
-
-  ![屏幕截图 2023-03-11 013805](./assets/屏幕截图 2023-03-11 013805.png)
+  
+  <div align=center>
+  <img src="./assets/屏幕截图 2023-03-11 013805.png" alt="屏幕截图 2023-03-11 013805" />
+  </div>
 
   <center>▲ 加权法线修改器</center>
 - 一般来说直接导出就行，不会出什么问题。但因为 blender 是右手坐标系且 z 轴向上，而 Unity 是左手坐标系且 y 轴向上，所以这其中是有坑的。
-
-  ![屏幕截图 2023-03-11 033534](./assets/屏幕截图 2023-03-11 033534.png)
+  
+  <div align=center>
+  <img src="./assets/屏幕截图 2023-03-11 033534.png" alt="屏幕截图 2023-03-11 033534" />
+  </div>
 
   <center>▲ blender 导出 fbx 设置</center>
 
   如图，导出时默认的坐标转换是适配 Unity 的，不过如果不勾选应用转换，模型不会在导出时改变顶点数据，而是在导入 Unity 时再通过 Transform 给网格应用变换。这可能会引发一些问题，比如顶点传入顶点着色器的法线向量可能**不是归一化**的，容易带来难以预期的错误。所以，还是勾选应用变换。
 
 - 导入  Unity，如果应用了变换，需要勾选 Bake Axis Conversion
-
-  ![屏幕截图 2023-03-11 012949](./assets/屏幕截图 2023-03-11 012949-1678477045115-12.png)
+  <div align=center>
+  <img src="./assets/屏幕截图 2023-03-11 012949-1678477045115-12.png" alt="屏幕截图 2023-03-11 012949" />
+  </div>
 
   <center>▲ fbx 模型导入设置</center>
 
@@ -53,40 +66,46 @@
 
 - 身体贴图。主要是以下的五类：**Diffuse, Lightmap, Normalmap, Ramp, Metalmap**
   
+  <div align=center>
   <img src="./assets/屏幕截图 2023-03-11 011203.png" alt="屏幕截图 2023-03-11 011203" style="zoom:67%;" />
+  </div>
   
   <center>▲ Diffuse 贴图，这张的 a 通道表示自发光强度</center>
 
   Diffuse 贴图的 rgb 通道自然就是 diffuse color 了，主要是这个贴图 a 通道的作用。其实这是视情况而定的。一般情况，a 通道表示材质自发光的强度，需要注意把这个变量拆出来，但是如果贴图中有对应的网格是透明材质，那 a 通道就是一般意义上表示透明度的。
   
   
-  
+  <div align=center>
   <img src="./assets/屏幕截图 2023-03-11 011246.png" alt="屏幕截图 2023-03-11 011246" style="zoom:67%;" />
+  </div>
   
   <center>▲ Ramp 贴图</center>
   
   Ramp 贴图是控制阴影颜色的。可以使用版兰伯特光照模型，值为 0.5~1.0 的地方使用原 diffuse color，而值为 0.0~0.5 的地方是阴影区，可将值映射到 u 坐标的 0到1，从而得到对应的阴影颜色。v 坐标是通过材质的类型区分的，这点下一段在 Lightmap 中讲。
   
   
-  
+  <div align=center>
   <img src="./assets/屏幕截图 2023-03-11 011218.png" alt="屏幕截图 2023-03-11 011218" style="zoom:67%;" />
+  </div>
   
   <center>▲ Lightmap 贴图</center>
   
   Lightmap 贴图很关键，但作用也是比较迷惑的。据观察，r 通道应该是表示高光强度的变量，不过当 r = 1.0 是，材质还多了层意义，即该材质为金属，因为金属的漫反射与高光材质处理逻辑与普通材质有所不同，需要单独从中取出表示是否为金属的变量。g 通道表示环境光遮蔽（AO），后面会讲到如何处理 g 的数据。b 通道是我最迷惑的，我认为应该是表示高光范围，b 值越大，其对应材质的 blin-phong 高光范围看起来也会大一些。由于原神中高光边缘是硬的，我认为可以将这个值用作高 step 高光的阈值 threshold （仅仅是我的猜测与推断）。a 值用来区分材质类型，在 Ramp 贴图的采样中用来计算 uv 的 v 坐标。不过一般来说，将取出 a 值经过区分白天和黑夜的坐标重映射后，直接采样应该更简洁高效。但似乎不同材质应该采样的 ramp 图 v 坐标与 a 值的大小不是一一对应的（不是连续的），没办法，只能分段控制具体材质对应的 v 坐标le。这里是用来映射 v 坐标的函数。
   
   
-  
+  <div align=center>
   <img src="./assets/屏幕截图 2023-03-11 011231.png" alt="屏幕截图 2023-03-11 011231" style="zoom:67%;" />
+  </div>
   
   <center>▲ Normalmap 贴图</center>
   
   Normal map 就是法线贴图，用法这里就不需要多讲了，了解 TBN 矩阵的变换即可。
   
   
-  
+  <div align=center>
   <img src="./assets/屏幕截图 2023-03-11 011422.png" alt="屏幕截图 2023-03-11 011422" style="zoom:67%;" />
-  
+  </div>
+
   <center>▲ Metalmap 贴图</center>
   
   Metal map 是用来表现金属高光的。需要将 normal 从世界空间（World Space）转换到相机空间（View Space），从而映射到uv坐标，其采样值可与 diffuse color 正片叠底，获得视角高光。
@@ -95,15 +114,18 @@
   
 - 脸部贴图。主要是 **Diffuse，Shadow，FaceLightmap， Ramp** 四类
   
+  <div align=center>
   <img src="./assets/屏幕截图 2023-03-11 011303.png" alt="屏幕截图 2023-03-11 011303" style="zoom:67%;" />
+  </div>
   
   <center>▲ Diffuse 贴图</center>
 
   脸部的贴图有些许不同，Diffuse 贴图的 a 通道控制脸部腮红的区域。
   
   
-  
+  <div align=center>
   <img src="./assets/屏幕截图 2023-03-11 011400.png" alt="屏幕截图 2023-03-11 011400" style="zoom:67%;" />
+  </div>
   
   <center>▲ Diffuse 贴图</center>
   
@@ -114,8 +136,9 @@
   脸部没用专门的 Ramp 图，至于用 Body 的还是 Hair 的视情况而定。
   
   
-  
+  <div align=center>
   <img src="./assets/屏幕截图 2023-03-11 011411.png" alt="屏幕截图 2023-03-11 011411" style="zoom:67%;" />
+  </div>
   
   <center>▲ FaceLightmap 贴图</center>
   
@@ -136,7 +159,9 @@
 - Ramp 贴图不要勾选生成 mipmap，另外 warp 模式改成 Clamp，防止边界错误采样。
 - 还有，所有贴图导入压缩使用高质量，不然效果会打折扣。
 
-![屏幕截图 2023-03-11 040550](./assets/屏幕截图 2023-03-11 040550.png)
+<div align=center>
+<img src="./assets/屏幕截图 2023-03-11 040550.png" alt="屏幕截图 2023-03-11 040550" style="zoom:67%;" />
+</div>
 
 <center>▲ Ramp 贴图导入设置例子</center>
 
@@ -146,7 +171,9 @@
 
 - 好的卡通渲染表现离不开后处理，可是 Unity 自带的 Tone Mapping 不太能满足要求，于是需要重写一些后处理 pass。一个办法是直接修改 URP 代码中的 PostProcessPass 文件，添加 Volume 代码，这种办法可以避免多余的性能浪费，但是我为了尽量不改变原始代码，选择写一份 Post Process Renderer Feature。主要思路就是分别管理 AfterRenderingTransparents 的 pass 和 AfterRendering 的 pass，并使用自建的 RenderTarget 作为 backBuffer 与此时相机的 render target 组成交换链，每完成一道 pass，就 swap 一次前后缓冲区（RT），以此尽量减少 Blit 次数，提升性能表现。本节，将使用 Unity 自带的 Bloom 和自定义的基于 Gran Turismo 的 Tone Mapping 组成后处理 Volume；
 
-  ![屏幕截图 2023-03-11 222021](./assets/屏幕截图 2023-03-11 222021.png)
+  <div align=center>
+  <img src="./assets/屏幕截图 2023-03-11 222021.png" alt="屏幕截图 2023-03-11 222021" style="zoom:67%;" />
+  </div>
 
 <center>▲ RendererFerture 设置</center>
 
@@ -314,8 +341,9 @@ struct Surface
    ```c
    o.diffuseColor = lerp(diffuseMap.rgb, blushColor, blushIntensity * o.emissionFac);
    ```
-
-   ![屏幕截图 2023-03-12 141655](./assets/屏幕截图 2023-03-12 141655.png)
+   
+   <div align=center>
+   <img src="./assets/屏幕截图 2023-03-12 141655.png" alt="屏幕截图 2023-03-12 141655" style="zoom: 50%;" /></div>
 
    <center>▲ 漫反射的最终效果图</center>
 
@@ -367,8 +395,10 @@ struct Surface
    o.isMetal = step(0.95, o.specularFac);
    ```
 
-
-   ![屏幕截图 2023-03-12 141753](./assets/屏幕截图 2023-03-12 141753.png)
+   
+   <div align=center>
+   <img src="./assets/屏幕截图 2023-03-12 141753.png" alt="屏幕截图 2023-03-12 141753" style="zoom:50%;" />
+   </div>
 
    <center>▲ 高光反射的最终效果图</center>
 
@@ -405,8 +435,9 @@ struct Surface
    }
    ```
 
-
-   ![屏幕截图 2023-03-12 141917](./assets/屏幕截图 2023-03-12 141917.png)
+   <div align=center>
+   <img src="./assets/屏幕截图 2023-03-12 141917.png" alt="屏幕截图 2023-03-12 141917" style="zoom:50%;" />
+   </div>
 
    <center>▲ 全局光照效果，未加入最终的合成效果</center>
 
@@ -430,8 +461,10 @@ struct Surface
    }
    ```
 
-
-   ![屏幕截图 2023-03-12 141828](./assets/屏幕截图 2023-03-12 141828.png)
+   
+   <div align=center>
+   <img src="./assets/屏幕截图 2023-03-12 141828.png" alt="屏幕截图 2023-03-12 141828" style="zoom:50%;" />
+   </div>
 
    <center>▲ 自发光的最终效果图</center>
 
@@ -455,8 +488,10 @@ struct Surface
    ```
 
    效果如下：
-
-   ![屏幕截图 2023-03-12 142026](./assets/屏幕截图 2023-03-12 142026.png)
+   
+   <div align=center>
+   <img src="./assets/屏幕截图 2023-03-12 142026.png" alt="屏幕截图 2023-03-12 142026" style="zoom:50%;" />
+   </div>
 
    <center>▲ 菲涅尔反射效果，不加入最终的合成效果</center>
 
@@ -509,8 +544,11 @@ struct Surface
    
    float strength = min(linearDepthBias - linearDepthTrue, 1.0) * (surface.LdotV * -0.5 + 0.5) * faceIntensity;
    ```
+   
+   <div align=center>
+   <img src="./assets/屏幕截图 2023-03-12 142115.png" alt="屏幕截图 2023-03-12 142115" style="zoom:50%;" />
+   </div>
 
-   ![屏幕截图 2023-03-12 142115](./assets/屏幕截图 2023-03-12 142115.png)
    <center>▲ 屏幕深度边缘光的最终效果图</center>
 
    
@@ -651,8 +689,10 @@ struct Surface
    }
    ```
 
-
-   ![屏幕截图 2023-03-12 142202](./assets/屏幕截图 2023-03-12 142202.png)
+   
+   <div align=center>
+   <img src="./assets/屏幕截图 2023-03-12 142202.png" alt="屏幕截图 2023-03-12 142202" style="zoom:50%;" />
+   </div>
 
    <center>▲ 描边的最终效果图</center>
 
@@ -707,7 +747,9 @@ struct Surface
 
    由于效果仍然有些不稳定，最后没有加入这个效果。
 
-   ![Project5](./assets/Project5.gif)
+   <div align=center>
+   <img src="./assets/Project5.gif" alt="Project5" />
+   </div>
    
    <center>▲ 用深度图实现脸部刘海阴影，未加入最终效果</center>
 
@@ -717,23 +759,33 @@ struct Surface
 
 加上天空盒。加上 Bloom，Tone Mapping 等后处理。写一些控制脚本。加入人物动作。看看最终效果吧。
 
-![Project2](./assets/Project2.gif)
+<div align=center>
+<img src="./assets/Project2.gif" alt="Project2" />
+</div>
 
-![Project3](./assets/Project3.gif)
+<div align=center>
+<img src="./assets/Project3.gif" alt="Project3" />
+</div>
 
-![Project4](./assets/Project4.gif)
+<div align=center>
+<img src="./assets/Project4.gif" alt="Project4" />
+</div>
 
 
 
 ### 其他
 
 - 关于 Shader GUI。由于参数众多，管理起来不便，于是实现一个可折叠的 GUI。
-
+  
+  <div align=center>
   <img src="./assets/屏幕截图 2023-03-12 144250.png" alt="屏幕截图 2023-03-12 144250" style="zoom:50%;" />
+  </div>
 
   <center>▲ 本项目 Shader 的属性列表</center>
-
+  
+  <div align=center>
   <img src="./assets/屏幕截图 2023-03-12 144320.png" alt="屏幕截图 2023-03-12 144320" style="zoom:50%;" />
+  </div>
 
   <center>▲ 折叠后</center>
 
