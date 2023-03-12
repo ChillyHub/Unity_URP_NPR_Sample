@@ -31,18 +31,18 @@
 </div>
 
 
-
 #### 工具篇
 
-自定义ShaderGUI，可以表示单层嵌套折叠项：
+**自定义ShaderGUI，可以表示单层嵌套折叠项：**
 
 <div align=center>
 <img src="./Documents/assets/屏幕截图 2023-03-12 144250.png" alt="屏幕截图 2023-03-12 144250" style="zoom: 33%;" />
 </div>
 
 
+**类Blender相机的相机控制脚本：**
 
-类Blender相机的相机控制脚本：[Script](./Assets/Scripts/Controller/CameraController/CameraDurroundPoint.cs)
+[Script: CameraSurroundPoint](./Assets/Scripts/Controller/CameraController/CameraSurroundPoint.cs)
 
 
 
