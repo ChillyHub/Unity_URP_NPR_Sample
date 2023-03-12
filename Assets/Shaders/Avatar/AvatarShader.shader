@@ -1,4 +1,4 @@
-Shader "Custom/Avatar"
+Shader "Custom/Avatar/Avatar"
 {
     Properties
     {
@@ -290,5 +290,5 @@ Shader "Custom/Avatar"
             ENDHLSL
         }
     }
-    CustomEditor "AvatarMaterialGUI"
+    CustomEditor "AvatarBaseShaderGUI"
 }

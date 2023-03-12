@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Controller.CameraController
+namespace Controller
 {
     public class CameraFreelook : MonoBehaviour
     {

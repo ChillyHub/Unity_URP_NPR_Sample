@@ -10,7 +10,8 @@ Material:
   m_Name: ProcedualPBRSkyboxMat
   m_Shader: {fileID: 4800000, guid: 4c95ce58fc3f47559ec12f1c8817b88d, type: 3}
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -89,7 +90,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _Exposure: 0.755
+    - _Exposure: 0.476
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -107,22 +108,29 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _Thickness: 101
+    - _Thickness: 25
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _gMie: 0.1
-    - _mieFac: 0.2
+    - __: 0
+    - _gMie: 0.75
+    - _gSun: 0.999847
+    - _mieFac: 0.046
+    - _rayleighFac: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorBlue: {r: 0.0057616234, g: 0, b: 1, a: 1}
-    - _ColorGreen: {r: 0.45660377, g: 1, b: 0.8063673, a: 1}
-    - _ColorRed: {r: 1, g: 0.20188677, b: 0.33002433, a: 1}
+    - _ColorGreen: {r: 0, g: 1, b: 0.5114727, a: 1}
+    - _ColorRed: {r: 1, g: 0, b: 0, a: 1}
+    - _DayBlueColor: {r: 0, g: 0, b: 1, a: 1}
+    - _DayGreenColor: {r: 0, g: 1, b: 0, a: 1}
+    - _DayRedColor: {r: 1, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _NightColor: {r: 0.011835776, g: 0.005482373, b: 0.13207549, a: 1}
+    - _LightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _NightColor: {r: 0.011764706, g: 0.003921569, b: 0.13333334, a: 1}
     - _SkyboxColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _SunColor: {r: 1, g: 0.91339624, b: 0.71132076, a: 1}
+    - _SunColor: {r: 1, g: 0.9225905, b: 0.7396226, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &5146051243259726707
 MonoBehaviour:

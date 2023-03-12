@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Controller.CameraController
+namespace Controller
 {
     public class CameraSurroundPoint : MonoBehaviour
     {
@@ -29,6 +29,16 @@ namespace Controller.CameraController
         public Light followLight = null;
         public bool onlyRotateByY = false;
 
+        [Space]
+        [Header("Auto Moving")] 
+        public bool autoRotate = false;
+        [Range(0.0f, 2.0f)] public float autoRotateSpeed = 1.0f;
+        public bool autoScale = false;
+        public AutoScaleMode autoScaleMode = AutoScaleMode.UseScaleRange;
+        [Range(-5.0f, 5.0f)] public float scaleRange = 0.0f;
+
+        private float _prevScaleRange = 0.0f;
+
         #region Enum
 
         public enum MoveKeyCode
@@ -46,6 +56,12 @@ namespace Controller.CameraController
         public enum ScaleKeyCode
         {
             MouseScrollWhell
+        }
+
+        public enum AutoScaleMode
+        {
+            ZoomInAndOutPerCircle,
+            UseScaleRange
         }
 
         private enum CurrOption
@@ -176,6 +192,25 @@ namespace Controller.CameraController
                     break;
             }
 
+            if (autoRotate)
+            {
+                Rotate(transform, autoRotateSpeed * Time.deltaTime);
+                if (followLight != null)
+                {
+                    Rotate(followLight.transform, autoRotateSpeed * Time.deltaTime);
+                }
+            }
+
+            if (autoScale)
+            {
+                if (autoScaleMode == AutoScaleMode.UseScaleRange)
+                {
+                    float scale = scaleRange - _prevScaleRange;
+                    _prevScaleRange = scaleRange;
+                    Scale(scale);
+                }
+            }
+
             if (m_OldFocusPosition != focusPosition)
             {
                 if (m_CurrOption != CurrOption.Move)
@@ -228,6 +263,11 @@ namespace Controller.CameraController
                 trans.RotateAround(focusPosition, transform.right, -deltaY * rotateSpeed * 20.0f);
             }
         }
+        
+        void Rotate(Transform trans, float rotate)
+        {
+            trans.RotateAround(focusPosition, Vector3.up, rotate * 20.0f);
+        }
 
         void Scale()
         {
@@ -249,6 +289,27 @@ namespace Controller.CameraController
             else if (deltaScroll < 0)
             {
                 deltaVS.z -= distance * deltaScroll;
+            }
+
+            Vector3 deltaWS = IV * deltaVS;
+            transform.position += deltaWS;
+        }
+
+        void Scale(float scale)
+        {
+            scale *= 0.2f;
+            
+            Matrix4x4 IV = m_Camera.cameraToWorldMatrix;
+
+            Vector4 deltaVS = Vector4.zero;
+            float distance = (transform.position - focusPosition).magnitude;
+            if (scale > 0)
+            {
+                deltaVS.z -= distance * scale / (scale + 1.0f);
+            }
+            else if (scale < 0)
+            {
+                deltaVS.z -= distance * scale;
             }
 
             Vector3 deltaWS = IV * deltaVS;

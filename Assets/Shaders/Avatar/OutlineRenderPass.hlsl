@@ -41,7 +41,7 @@ Varyings OutlineRenderPassVertex(Attributes input)
 #endif
 
     output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
-    float3 offset = smoothNormalOS * min(0.4, output.positionCS.w) * outlineWidth * 0.005;
+    float3 offset = smoothNormalOS * min(0.2, output.positionCS.w * 0.5) * outlineWidth * 0.01;
     output.positionCS = TransformObjectToHClip(input.positionOS.xyz + offset);
     output.color = input.color;
     output.baseUV = input.baseUV;

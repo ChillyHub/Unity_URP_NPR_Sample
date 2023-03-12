@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace Controller.PorbeController
+namespace Controller
 {
     [ExecuteAlways]
     public class PlaneReflectProbeController : MonoBehaviour

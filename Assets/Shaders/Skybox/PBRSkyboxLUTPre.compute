@@ -1,0 +1,46 @@
+#include "Assets/Shaders/ShaderLibrary/AtmosphereScattering.hlsl"
+
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel PBRSkyboxLUTPre
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<float4> _SkyboxLUT;
+
+float4 _LightColor;
+
+float _Thickness;
+float _Radius;
+float _RScale;
+float _SampleCounts;
+float _Exposure;
+
+float _rayleighFac;
+float _mieFac;
+float _gMie;
+float _gSun;
+
+#define RADIUS (_Radius * 1000.0)
+#define THICKNESS (_Thickness * 1000.0)
+
+[numthreads(16, 16, 1)]
+void PBRSkyboxLUTPre(uint3 id : SV_DispatchThreadID)
+{
+    float w, h;
+    _SkyboxLUT.GetDimensions(w, h);
+
+    float height = (id.x + 0.5) * _Thickness * rcp(w);
+    float cosTheta = (id.y + 0.5) * 2.0 * rcp(h) - 1.0;
+
+    ScatteringData sData = GetScatteringData(_LightColor.xyz, RADIUS, THICKNESS, _RScale, _Exposure, _gMie,
+        _rayleighFac, _mieFac, 300.0);
+
+    float3 objPos = float3(0.0, height, 0.0);
+    float3 lightDir = float3(0.0, cosTheta, sqrt(1.0 - cosTheta * cosTheta));
+    PathData pData = GetLightPathData(sData, objPos, lightDir);
+    
+    float opticalDepth = GetOpticalDepth(sData, pData);
+    float densityRatio = GetDensityRatio(height, sData.thickness);
+
+    _SkyboxLUT[id.xy] = float4(opticalDepth, densityRatio, 0.0, 0.0);
+}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Tool
 {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class AvatarNormalSmoothTool : MonoBehaviour
     {
         [NonSerialized]
@@ -70,6 +70,11 @@ namespace Tool
                 
                 Debug.Log("Smooth normals completed");
             }
+        }
+        
+        private void Awake()
+        {
+            SmoothNormals();
         }
 
         private float GetOddNegativeScale(Transform trans)
