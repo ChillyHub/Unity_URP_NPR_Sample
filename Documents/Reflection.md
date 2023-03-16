@@ -308,7 +308,7 @@ half3 ReflectivePlaneGlossyEnvironmentReflection(half3 reflectVector, float3 pos
 
 **材质色为淡蓝，金属度最高，完全光滑**
 
-![屏幕截图 2023-03-16 201325](./assets/屏幕截图 2023-03-16 201325.png)
+<img src="./assets/屏幕截图 2023-03-16 201325.png" alt="屏幕截图 2023-03-16 201325" />
 
 **粗糙表面**
 
