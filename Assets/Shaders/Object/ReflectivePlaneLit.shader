@@ -182,7 +182,7 @@ Shader "Custom/Object/ReflectivePlaneLit"
             #pragma vertex ShadowPassVertex
             #pragma fragment ShadowPassFragment
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
             ENDHLSL
         }
@@ -249,7 +249,7 @@ Shader "Custom/Object/ReflectivePlaneLit"
             #pragma vertex LitGBufferPassVertex
             #pragma fragment LitGBufferPassFragment
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitGBufferPass.hlsl"
             ENDHLSL
         }
@@ -280,7 +280,7 @@ Shader "Custom/Object/ReflectivePlaneLit"
             #pragma multi_compile_instancing
             #pragma multi_compile _ DOTS_INSTANCING_ON
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/DepthOnlyPass.hlsl"
             ENDHLSL
         }
@@ -314,7 +314,7 @@ Shader "Custom/Object/ReflectivePlaneLit"
             #pragma multi_compile_instancing
             #pragma multi_compile _ DOTS_INSTANCING_ON
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitDepthNormalsPass.hlsl"
             ENDHLSL
         }
@@ -344,7 +344,7 @@ Shader "Custom/Object/ReflectivePlaneLit"
 
             #pragma shader_feature_local_fragment _SPECGLOSSMAP
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitMetaPass.hlsl"
 
             ENDHLSL
@@ -368,7 +368,7 @@ Shader "Custom/Object/ReflectivePlaneLit"
             #pragma shader_feature_local_fragment _ALPHATEST_ON
             #pragma shader_feature_local_fragment _ALPHAPREMULTIPLY_ON
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/Utils/Universal2D.hlsl"
             ENDHLSL
         }
@@ -447,8 +447,8 @@ Shader "Custom/Object/ReflectivePlaneLit"
             #pragma vertex LitPassVertex
             #pragma fragment LitPassFragment
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitForwardPass.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitInput.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitForwardPass.hlsl"
             ENDHLSL
         }
 
@@ -484,7 +484,7 @@ Shader "Custom/Object/ReflectivePlaneLit"
             #pragma vertex ShadowPassVertex
             #pragma fragment ShadowPassFragment
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
             ENDHLSL
         }
@@ -514,7 +514,7 @@ Shader "Custom/Object/ReflectivePlaneLit"
             #pragma shader_feature_local_fragment _ALPHATEST_ON
             #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/DepthOnlyPass.hlsl"
             ENDHLSL
         }
@@ -547,7 +547,7 @@ Shader "Custom/Object/ReflectivePlaneLit"
             // GPU Instancing
             #pragma multi_compile_instancing
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitDepthNormalsPass.hlsl"
             ENDHLSL
         }
@@ -577,7 +577,7 @@ Shader "Custom/Object/ReflectivePlaneLit"
 
             #pragma shader_feature_local_fragment _SPECGLOSSMAP
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitMetaPass.hlsl"
 
             ENDHLSL
@@ -600,7 +600,7 @@ Shader "Custom/Object/ReflectivePlaneLit"
             #pragma shader_feature_local_fragment _ALPHATEST_ON
             #pragma shader_feature_local_fragment _ALPHAPREMULTIPLY_ON
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Object/ReflectivePlaneLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/Utils/Universal2D.hlsl"
             ENDHLSL
         }

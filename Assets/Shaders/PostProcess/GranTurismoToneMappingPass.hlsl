@@ -1,8 +1,8 @@
 #ifndef GRAN_TURISMO_TONE_MAPPING_PASS_INCLUDED
 #define GRAN_TURISMO_TONE_MAPPING_PASS_INCLUDED
 
-TEXTURE2D(_MainTex);
-SAMPLER(sampler_MainTex);
+TEXTURE2D(_SourceTex);
+SAMPLER(sampler_SourceTex);
 
 CBUFFER_START(UnityPerMaterial)
     float _P;                    // Maximum brightness
@@ -58,7 +58,7 @@ Varyings GranTurismoToneMappingPassVertex(Attributes input)
 
 float4 GranTurismoToneMappingPassFragment(Varyings input) : SV_Target
 {
-    float4 rgba = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.screenUV);
+    float4 rgba = SAMPLE_TEXTURE2D(_SourceTex, sampler_SourceTex, input.screenUV);
     float3 color = rgba.rgb;
 
     GranTurismoMapper(color);

@@ -90,7 +90,7 @@ namespace PipelineRenderer
                 _material.SetFloat(SampleCountsId, volume.sampleCounts.value);
 
                 // Blit
-                cmd.SetGlobalTexture("_MainTex", source.Identifier());
+                cmd.SetGlobalTexture("_SourceTex", source.Identifier());
                 Blit(cmd, source.Identifier(), dest.Identifier(), _material, 0);
             }
             context.ExecuteCommandBuffer(cmd);

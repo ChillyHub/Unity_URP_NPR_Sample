@@ -49,7 +49,7 @@ namespace PipelineRenderer
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             var volume = VolumeManager.instance.stack.GetComponent<CustomToneMapping>();
-            if (volume == null || !volume.IsActive() || volume.mode == CustomToneMapping.Mapper.None)
+            if (volume == null || !volume.IsActive())
             {
                 return;
             }
@@ -84,7 +84,7 @@ namespace PipelineRenderer
                 _material.SetFloat(BId, data.darknessValue.value);
 
                 // Blit
-                cmd.SetGlobalTexture("_MainTex", source.Identifier());
+                cmd.SetGlobalTexture("_SourceTex", source.Identifier());
                 Blit(cmd, source.Identifier(), dest.Identifier(), _material, 0);
             }
             context.ExecuteCommandBuffer(cmd);

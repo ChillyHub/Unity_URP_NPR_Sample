@@ -82,15 +82,15 @@ namespace PipelineRenderer
                 // Blit
                 if (_sourceRT.Identifier() == _destRT.Identifier())
                 {
-                    cmd.SetGlobalTexture("_MainTex", _sourceRT.Identifier());
+                    cmd.SetGlobalTexture("_SourceTex", _sourceRT.Identifier());
                     Blit(cmd, _sourceRT.Identifier(), _tempRT.Identifier(), _material, _passId);
                     
-                    cmd.SetGlobalTexture("_MainTex", _tempRT.Identifier());
+                    cmd.SetGlobalTexture("_SourceTex", _tempRT.Identifier());
                     Blit(cmd, _tempRT.Identifier(), _destRT.Identifier());
                 }
                 else
                 {
-                    cmd.SetGlobalTexture("_MainTex", _sourceRT.Identifier());
+                    cmd.SetGlobalTexture("_SourceTex", _sourceRT.Identifier());
                     Blit(cmd, _sourceRT.Identifier(), _destRT.Identifier(), _material, _passId);
                 }
             }

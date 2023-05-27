@@ -1,8 +1,8 @@
 #ifndef SCREEN_SPACE_RIM_PASS_INCLUDED
 #define SCREEN_SPACE_RIM_PASS_INCLUDED
 
-TEXTURE2D(_MainTex);
-SAMPLER(sampler_MainTex);
+TEXTURE2D(_SourceTex);
+SAMPLER(sampler_SourceTex);
 TEXTURE2D(_CameraDepthTexture);
 SAMPLER(sampler_CameraDepthTexture);
 
@@ -56,7 +56,7 @@ Varyings ScreenSpaceFogPassVertex(Attributes input)
 
 float4 ScreenSpaceFogPassFragment(Varyings input) : SV_Target
 {
-    float4 rgba = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.screenUV);
+    float4 rgba = SAMPLE_TEXTURE2D(_SourceTex, sampler_SourceTex, input.screenUV);
     float depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_CameraDepthTexture, input.screenUV);
     depth = Linear01Depth(depth, _ZBufferParams);
 

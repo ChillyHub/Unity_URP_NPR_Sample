@@ -221,6 +221,38 @@ Shader "Custom/Avatar/AvatarBody"
             
             ENDHLSL
         }
+    	Pass
+        {
+            Name "DepthNormals"
+            Tags {"LightMode" = "DepthNormals"}
+
+            ZWrite On
+            Cull back
+
+            HLSLPROGRAM
+            #pragma exclude_renderers gles gles3 glcore
+            #pragma target 4.5
+
+            #pragma vertex DepthNormalsVertex
+            #pragma fragment DepthNormalsFragment
+
+            // -------------------------------------
+            // Material Keywords
+            #pragma shader_feature_local _NORMALMAP
+            #pragma shader_feature_local _PARALLAXMAP
+            #pragma shader_feature_local _ _DETAIL_MULX2 _DETAIL_SCALED
+            #pragma shader_feature_local_fragment _ALPHATEST_ON
+            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+
+            //--------------------------------------
+            // GPU Instancing
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+
+            #include "Assets/Shaders/Avatar/AvatarInput.hlsl"
+            #include "Assets/Shaders/Avatar/DepthNormalsPass.hlsl"
+            ENDHLSL
+        }
         Pass
         {
             // Lightmode matches the ShaderPassName set in UniversalRenderPipeline.cs. SRPDefaultUnlit and passes with

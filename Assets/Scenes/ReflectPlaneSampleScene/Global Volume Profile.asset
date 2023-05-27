@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Name: Global Volume Profile
   m_EditorClassIdentifier: 
   components:
+  - {fileID: 8785279375624672728}
   - {fileID: -2582943165833150212}
   - {fileID: 3187504600522376858}
 --- !u!114 &3187504600522376858
@@ -90,3 +91,19 @@ MonoBehaviour:
     darknessValue:
       m_OverrideState: 0
       m_Value: 0
+--- !u!114 &8785279375624672728
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64fa8499305e4ad591dbaa1e99bb230c, type: 3}
+  m_Name: ScreenSpaceReflection
+  m_EditorClassIdentifier: 
+  active: 1
+  enable:
+    m_OverrideState: 1
+    m_Value: 1
