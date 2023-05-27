@@ -32,9 +32,13 @@
 
 ##### 镜面反射篇 ：[ReadMe](./Documents/Reflection.md)
 
-目前实现了使用多 Pass 渲染的平面反射（前向渲染），下一步实现 SSR
+目前实现了使用多 Pass 渲染的平面反射（前向渲染）
 
 <img src="./Documents/assets/屏幕截图 2023-03-16 191407.png" />
+
+SSR 屏幕空间反射 (延迟渲染)
+
+<img src="./assets/屏幕截图 2023-05-28 000227.png" alt="屏幕截图 2023-05-28 000227" />
 
 
 

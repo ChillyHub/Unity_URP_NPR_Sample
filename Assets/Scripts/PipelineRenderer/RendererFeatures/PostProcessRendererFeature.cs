@@ -11,7 +11,7 @@ namespace PipelineRenderer
         private const string ProfilerTag = "Custom Render PostProcessing Effects";
         
         private RenderTargetHandle _backRT;
-        private RenderTexture _backBuffer;
+        private RenderTexture _backBuffer = null;
         private bool _swap = false;
 
         private ScreenSpaceFogPass _screenSpaceFogPass;
@@ -35,11 +35,12 @@ namespace PipelineRenderer
             {
                 return;
             }
-            
-            if (_backBuffer == null)
+
+            if (_backBuffer != null)
             {
-                _backBuffer = RenderTexture.GetTemporary(renderingData.cameraData.cameraTargetDescriptor);
+                RenderTexture.ReleaseTemporary(_backBuffer);
             }
+            _backBuffer = RenderTexture.GetTemporary(renderingData.cameraData.cameraTargetDescriptor);
 
             if (!_backBuffer.IsCreated())
             {

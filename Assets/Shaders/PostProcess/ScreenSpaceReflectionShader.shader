@@ -18,6 +18,7 @@
 
 			#pragma target 4.5
 
+			#pragma multi_compile _ _GBUFFER_NORMALS_OCT
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _SHADOWS_SOFT
 			
 			#pragma vertex ScreenSpaceReflectionPassVertex
