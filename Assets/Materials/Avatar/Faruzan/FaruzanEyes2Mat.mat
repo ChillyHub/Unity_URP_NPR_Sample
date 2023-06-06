@@ -20,24 +20,19 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FaruzanHairMat
-  m_Shader: {fileID: 4800000, guid: f8908067445748979976bc4e8d24300f, type: 3}
+  m_Name: FaruzanEyes2Mat
+  m_Shader: {fileID: 4800000, guid: 8c3c44f5f27440b2966ba237f3dce9b9, type: 3}
   m_ValidKeywords:
   - _DIFFUSE_ON
-  - _EDGE_RIM_ON
-  - _EMISSION_ON
   - _NORMAL_FIXED
-  - _OUTLINE_ON
-  - _SPECULAR_ON
   - _USE_VERTEX_ALPHA
   - _USE_VERTEX_COLOR
-  - _VARYING_ALPHA
   m_InvalidKeywords:
   - _SHADOWS_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2020
+  m_CustomRenderQueue: 2010
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -174,7 +169,6 @@ Material:
     - _Transition_Range: 0
     - _UseVertexAlphaToggle: 1
     - _UseVertexColorToggle: 1
-    - _VaryingAlphaToggle: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     - __1: 0

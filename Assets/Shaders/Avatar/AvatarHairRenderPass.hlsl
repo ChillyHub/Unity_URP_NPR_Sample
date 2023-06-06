@@ -182,8 +182,13 @@ float4 HairRenderPassFragment(Varyings input) : SV_Target
     float3 fresnelRim = _Rim_Intensity * GetFresnelRim(surface, _Rim_Color, _Rim_Scale, _Rim_Clamp);
     float3 edgeRim = _Edge_Rim_Intensity *
         GetEdgeRim(surface, diffuse, _Edge_Rim_Threshold, _Edge_Rim_Width) * light.color;
+
+    float alpha = surface.alpha;
+#if defined(_VARYING_ALPHA)
+    alpha = 1.0 - (saturate(dot(surface.viewDirWS, TransformObjectToWorldDir(_FrontDirection)) - 0.2)) * 0.5;
+#endif
     
-    return float4(diffuse + specular + GI + emission + fresnelRim + edgeRim, surface.alpha);
+    return float4(diffuse + specular + GI + emission + fresnelRim + edgeRim, alpha);
 }
 
 #endif

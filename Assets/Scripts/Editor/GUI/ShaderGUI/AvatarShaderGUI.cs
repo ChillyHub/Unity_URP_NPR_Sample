@@ -197,6 +197,7 @@ namespace UnityEditor
             EditorGUILayout.Space();
             _materialEditor.EnableInstancingField();
             _materialEditor.DoubleSidedGIField();
+            _materialEditor.RenderQueueField();
         }
 
         uint GetEditorPrefs(string key)

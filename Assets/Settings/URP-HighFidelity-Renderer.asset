@@ -78,7 +78,7 @@ MonoBehaviour:
     failOperation: 0
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
-  m_RenderingMode: 1
+  m_RenderingMode: 0
   m_DepthPrimingMode: 0
   m_AccurateGbufferNormals: 1
   m_ClusteredRendering: 0
@@ -107,6 +107,7 @@ MonoBehaviour:
         m_Bits: 128
       PassNames:
       - AvatarObject
+      - AvatarObject2
     overrideMaterial: {fileID: 0}
     overrideMaterialPassIndex: 0
     overrideDepthState: 0

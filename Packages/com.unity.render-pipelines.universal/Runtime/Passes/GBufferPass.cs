@@ -44,6 +44,11 @@ namespace UnityEngine.Rendering.Universal.Internal
             m_ShaderTagValues[2] = s_ShaderTagUnlit;
             m_ShaderTagValues[3] = new ShaderTagId(); // Special catch all case for materials where UniversalMaterialType is not defined or the tag value doesn't match anything we know.
 
+            // StencilState state = m_RenderStateBlock.stencilState;
+            // state.writeMask = (byte)0x0F;
+            // m_RenderStateBlock.stencilState = state;
+            // m_RenderStateBlock.stencilReference = 0x03;
+            
             m_RenderStateBlocks = new RenderStateBlock[4];
             m_RenderStateBlocks[0] = DeferredLights.OverwriteStencil(m_RenderStateBlock, (int)StencilUsage.MaterialMask, (int)StencilUsage.MaterialLit);
             m_RenderStateBlocks[1] = DeferredLights.OverwriteStencil(m_RenderStateBlock, (int)StencilUsage.MaterialMask, (int)StencilUsage.MaterialSimpleLit);

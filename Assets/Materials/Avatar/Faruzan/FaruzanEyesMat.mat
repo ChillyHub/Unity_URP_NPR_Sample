@@ -20,24 +20,20 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FaruzanHairMat
-  m_Shader: {fileID: 4800000, guid: f8908067445748979976bc4e8d24300f, type: 3}
+  m_Name: FaruzanEyesMat
+  m_Shader: {fileID: 4800000, guid: 25dbadc225e94e098251de0b34215fa9, type: 3}
   m_ValidKeywords:
   - _DIFFUSE_ON
-  - _EDGE_RIM_ON
-  - _EMISSION_ON
   - _NORMAL_FIXED
-  - _OUTLINE_ON
   - _SPECULAR_ON
   - _USE_VERTEX_ALPHA
   - _USE_VERTEX_COLOR
-  - _VARYING_ALPHA
   m_InvalidKeywords:
   - _SHADOWS_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2020
+  m_CustomRenderQueue: 2010
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -64,15 +60,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DiffuseMap:
-        m_Texture: {fileID: 2800000, guid: 5c2f4e83c1235e04cbe1033bc67a7c90, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1be4a5cdd693243468b21419ec7c026a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _FaceLightMap:
+        m_Texture: {fileID: 2800000, guid: dd97d68a9a631044ba05b6794b451133, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _LightMap:
-        m_Texture: {fileID: 2800000, guid: c5f9d497ac572814a98e391a73e55f7c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6a8e3de8fa161854c94dc39d10260d0d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -80,7 +80,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetalMap:
-        m_Texture: {fileID: 2800000, guid: 3469a0a5030fd5247be549ac33c00d86, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -88,7 +88,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: eaf56082cd741004898d8d3f5cc7d16c, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -100,7 +100,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RampMap:
-        m_Texture: {fileID: 2800000, guid: 37992af1442ca464ca6b55f8d0508290, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6983d5a40bdfe7c46993a5935950a65e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -138,7 +138,7 @@ Material:
     - _Edge_Rim_Threshold: 0.1
     - _Edge_Rim_Width: 1
     - _Emission_Color_Only: 0
-    - _Emission_Intensity: 1
+    - _Emission_Intensity: 1.3
     - _EnvironmentReflections: 1
     - _GI_Intensity: 1
     - _GlossMapScale: 0
@@ -152,16 +152,16 @@ Material:
     - _Parallax: 0.005
     - _PreMulAlphaToggle: 0
     - _QueueOffset: 0
-    - _RampV1: 5
-    - _RampV2: 4
-    - _RampV3: 3
-    - _RampV4: 1
-    - _RampV5: 2
+    - _RampV1: 4
+    - _RampV2: 2
+    - _RampV3: 5
+    - _RampV4: 4
+    - _RampV5: 3
     - _ReceiveDepthShadowsToggle: 0
     - _ReceiveLightShadowsToggle: 0
     - _ReceiveShadows: 1
     - _Rim_Clamp: 0
-    - _Rim_Intensity: 1
+    - _Rim_Intensity: 0.011
     - _Rim_Scale: 0.08
     - _Shadows: 0
     - _Smoothness: 0.5
@@ -174,7 +174,6 @@ Material:
     - _Transition_Range: 0
     - _UseVertexAlphaToggle: 1
     - _UseVertexColorToggle: 1
-    - _VaryingAlphaToggle: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     - __1: 0
@@ -182,8 +181,10 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Emission_Color: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+    - _Emission_Color: {r: 1, g: 0.6924368, b: 0.67358494, a: 1}
+    - _FrontDirection: {r: -1.1368683e-12, g: -0.00000029802322, b: -1, a: -0}
+    - _OutlineColor: {r: 0.8113208, g: 0.69191885, b: 0.69191885, a: 1}
+    - _RightDirection: {r: -1, g: -4.098666e-13, b: 1.1368685e-12, a: -0}
     - _Rim_Color: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

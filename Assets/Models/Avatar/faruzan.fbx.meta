@@ -63,12 +63,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: "\u7709"
-    second: {fileID: 2100000, guid: de12e07bcfdbeea479dc4dcbba8bec28, type: 2}
+    second: {fileID: 2100000, guid: aa0ff75b6476bf54fb96da4de629b42c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: "\u776B"
-    second: {fileID: 2100000, guid: de12e07bcfdbeea479dc4dcbba8bec28, type: 2}
+    second: {fileID: 2100000, guid: aa0ff75b6476bf54fb96da4de629b42c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
